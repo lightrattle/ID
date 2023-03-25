@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片分享-首页</title>
+
+    <script src="./jQuery/jquery-3.5.1.slim.min.js"></script>
+    <script src="./jQuery/jquery-3.5.1.min.js"></script>
+    <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.min.css">
+    <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.structure.min.css">
+    <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.theme.min.css">
+    <link rel = "stylesheet" href = "./css/content.css">
+    <script src="./jQueryUI-1.13.2/jquery-ui.min.js"></script>
+</head>
+<body>
+<div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
+    <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
+    </div>
+    <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
+        <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
+        text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
+            <label for="username">用户名:</label><input type="text" id="username" style="font-size: 48px" required placeholder="用户名"><br>
+            <label for="password">密&nbsp;&nbsp;&nbsp;码:</label><input type="password" id="password" style="
+            font-size: 48px" required placeholder="密码"><br>
+            <button type="button" class="ui-button" style="font-size: 48px" id="chooseTologin">登录</button>
+        </div>
+    </div>
+    <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
+    </div>
+</div>
+</body>
+<script>
+    $(document).ready(function(){
+        $("#chooseTologin").click(function(){
+            $.ajax({
+                url:"/user/login",
+                type:"post",
+                data:{
+                    user_Name:document.getElementById("username").value,
+                    passWord:document.getElementById("password").value
+                },
+                dataType:"json",
+                async:false,
+                success:function(data){
+                    if(data === 0){
+                        location.href = "admin-index.html?user_Name="+document.getElementById("username").value;
+                    }else if(data === 1){
+                        location.href = "supervisor-index.html?user_Name="+document.getElementById("username").value;
+                    }else if(data === 2){
+                        location.href = "manager-index.html?user_Name="+document.getElementById("username").value;
+                    }else if(data === 3){
+                        location.href = "assistant-index.html?user_Name="+document.getElementById("username").value;
+                    }else if(data === -1){
+                        alert("login error!");
+                    }
+                },
+                error:function(errorMsg){
+                    alert("error!" + errorMsg);
+                    console.log(errorMsg);
+                }
+            });
+
+            // $.post("/user/login",{
+            //     user_Name:$("username").value,
+            //     passWord:$("password").value
+            // },function(result){
+            //     if (result === '-1') {
+            //         alert("登录失败！");
+            //     } else if (result === 0) {
+            //         window.location.href = "admin-index.html";
+            //     } else if (result === 1) {
+            //         window.location.href = "supervisor-index.html";
+            //     } else if (result === 2) {
+            //         window.location.href = "manager-index.html";
+            //     } else if (result === 3) {
+            //         window.location.href = "assistant-index.html";
+            //     }
+            // })
+            // return false;
+        });
+        $(document).keydown(function(event){
+            if(event.keyCode === 13){
+                document.getElementById("chooseTologin").click();
+            }
+        });
+    });
+</script>
+</html>
