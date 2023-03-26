@@ -20,7 +20,6 @@ public class WebAppConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**") //拦截的路径
                 .excludePathPatterns("/login.html")
                 .excludePathPatterns("/createUser.html")
-                .excludePathPatterns("/youKe.html")
                 .excludePathPatterns("/index.html")
                 .excludePathPatterns("/user/**");//排除的路径
     }
