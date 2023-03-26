@@ -33,6 +33,7 @@
                                                        required placeholder="确认密码">
                 <div>
                     <input type="submit" class="ui-button" style="font-size: 48px" id="chooseTocreate" value="注册">
+                    <input type="button" class="ui-button" style="font-size: 48px" id="back" value="返回">
                 </div>
             </form>
         </div>
@@ -47,6 +48,9 @@
             if(event.keyCode === 13){
                 document.getElementById("chooseTocreate").click();
             }
+        });
+        $(document).on('click', '#back', function(){
+            location.href = "./index.html";
         });
     });
 </script>
