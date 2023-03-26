@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.id.mapper">
+<mapper namespace="com.id.mapper.UserMapper">
     <select id="loginUser" resultType="com.id.entity.User">
         SELECT * FROM `user` WHERE username = #{username} and password = #{password}
     </select>
 
     <insert id="createUser">
-        insert into user (nickname, username, password, status) value (#{nickname},#{username},#{password},#{status})
+        insert into user (nickname, username, password, status) value (#{nickname},#{username},#{password}, 1)
     </insert>
 </mapper>

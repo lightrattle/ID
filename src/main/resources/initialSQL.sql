@@ -23,4 +23,22 @@ INSERT INTO `User`(userid, nickname, username, password, status) VALUES (2, '浏
 INSERT INTO `User`(userid, nickname, username, password, status) VALUES (3, '关注着', 'player-1', '123456', 1);
 INSERT INTO `User`(userid, nickname, username, password, status) VALUES (4, '拉黑者', 'player-2', '123456', 1);
 
+/*创建黑名单*/
+DROP TABLE IF EXISTS `Blacklist`;
+CREATE TABLE `Blacklist` (
+                        `id` int(10) NOT NULL AUTO_INCREMENT,
+                        `userid` int(10) NOT NULL,
+                        `blackid` int(10) NOT NULL,
+                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+
+/*创建关注表*/
+DROP TABLE IF EXISTS `Attention`;
+CREATE TABLE `Attention` (
+                        `id` int(10) NOT NULL AUTO_INCREMENT,
+                        `userid` int(10) NOT NULL,
+                        `attenid` int(10) NOT NULL,
+                        PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+
 
