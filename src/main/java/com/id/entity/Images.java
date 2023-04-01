@@ -9,7 +9,7 @@ public class Images {
     private int userid;
     private int classifyid;
     private Date uptime;
-    private Blob image;
+    private String image;
 
     public int getImageid() {
         return imageid;
@@ -43,11 +43,11 @@ public class Images {
         this.uptime = uptime;
     }
 
-    public Blob getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

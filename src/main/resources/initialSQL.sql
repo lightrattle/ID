@@ -54,7 +54,7 @@ CREATE TABLE `Images` (
     `userid` int(10) NOT NULL,
     `classifyid` int(10) NOT NULL REFERENCES Classfily(`classfilyid`),
     `uptime` datetime NOT NULL,
-    `image` blob NOT NULL,
+    `image` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
     PRIMARY KEY (`imageid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
