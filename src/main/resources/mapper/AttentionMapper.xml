@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.id.mapper.AttentionMapper">
+    <select id="getListAttentionByUserid" resultType="java.util.HashMap">
+        select attentionid, user.userid, user.username, attentionuserid, u.username from attention
+            join user u on attention.attentionuserid = u.userid, user
+            where attention.userid = u.userid
+    </select>
+
+    <insert id="insertOneAttention">
+        insert into `attention`(userid, attentionuserid) VALUES (#{userid}, #{attentionuserid})
+    </insert>
+
+    <delete id="deleteOneAttention">
+        delete from `attention` where userid = #{userid} and attentionuserid = #{attentionuserid}
+    </delete>
+</mapper>

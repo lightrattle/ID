@@ -1,16 +1,16 @@
 package com.id.entity;
 
 public class Attention {
-    private int id;
+    private int attentionid;
     private int userid;
-    private int attenid;
+    private int attentionuserid;
 
-    public int getId() {
-        return id;
+    public int getAttentionid() {
+        return attentionid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAttentionid(int attentionid) {
+        this.attentionid = attentionid;
     }
 
     public int getUserid() {
@@ -21,11 +21,11 @@ public class Attention {
         this.userid = userid;
     }
 
-    public int getAttenid() {
-        return attenid;
+    public int getAttentionuserid() {
+        return attentionuserid;
     }
 
-    public void setAttenid(int attenid) {
-        this.attenid = attenid;
+    public void setAttentionuserid(int attentionuserid) {
+        this.attentionuserid = attentionuserid;
     }
 }

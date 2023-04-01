@@ -1,16 +1,16 @@
 package com.id.entity;
 
 public class Blacklist {
-    private int id;
-    private int userid;
     private int blackid;
+    private int userid;
+    private int blackuserid;
 
-    public int getId() {
-        return id;
+    public int getBlackid() {
+        return blackid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBlackid(int blackid) {
+        this.blackid = blackid;
     }
 
     public int getUserid() {
@@ -21,11 +21,11 @@ public class Blacklist {
         this.userid = userid;
     }
 
-    public int getBlackid() {
-        return blackid;
+    public int getBlackuserid() {
+        return blackuserid;
     }
 
-    public void setBlackid(int blackid) {
-        this.blackid = blackid;
+    public void setBlackuserid(int blackuserid) {
+        this.blackuserid = blackuserid;
     }
 }

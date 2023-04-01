@@ -27,7 +27,7 @@ public class UserController {
         if(user != null){//成功
             model.addAttribute("msg","登录成功！ 欢迎你！"+user.getUsername());
             session.setAttribute("loginUser", username);
-            session.setAttribute("uearid",user.getUserid());
+            session.setAttribute("userid",user.getUserid());
             return "<script>" +
                     "alert('登录成功！');" +
                     "location.href='/home.html';" +
