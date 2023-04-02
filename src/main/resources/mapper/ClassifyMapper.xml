@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.id.mapper.ClassifyMapper">
+    <select id="getListClassify" resultType="java.util.HashMap">
+        select * from classify
+    </select>
+
+    <insert id="insertOneClassify">
+        insert into `classify`(classifyname) VALUE (#{classifyname})
+    </insert>
+
+    <delete id="deleteOneClassify">
+        delete from `classify` where classifyname = #{classifyname}
+    </delete>
+</mapper>

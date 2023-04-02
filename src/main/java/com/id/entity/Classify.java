@@ -1,6 +1,6 @@
 package com.id.entity;
 
-public class Classfily {
+public class Classify {
     private int classfilyid;
     private String classfilyname;
 

@@ -2,6 +2,7 @@ package com.id.service;
 
 import com.id.entity.User;
 import com.id.mapper.UserMapper;
+import com.id.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -41,11 +41,11 @@ CREATE TABLE `Attention` (
     PRIMARY KEY (`attentionid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
-DROP TABLE IF EXISTS `Classfily`;
-CREATE TABLE `Classfily` (
-    `classfilyid` int(10) NOT NULL AUTO_INCREMENT,
-    `classfilyname` varchar(125) NOT NULL,
-    PRIMARY KEY (`classfilyid`) USING BTREE
+DROP TABLE IF EXISTS `Classify`;
+CREATE TABLE `Classify` (
+    `classifyid` int(10) NOT NULL AUTO_INCREMENT,
+    `classifyname` varchar(125) NOT NULL,
+    PRIMARY KEY (`classifyid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
 DROP TABLE IF EXISTS  `Images`;
@@ -70,10 +70,10 @@ CREATE TABLE `Comments` (
 
 DROP TABLE IF EXISTS `Notices`;
 CREATE TABLE `Notices` (
-    `noticeid` int(10) NOT NULL,
+    `noticeid` int(10) NOT NULL AUTO_INCREMENT,
     `userid` int(10) NOT NULL,
     `noticetime` datetime NOT NULL,
-    `status` int(1) NOT NULL,
+    `status` int(1) NOT NULL NULL DEFAULT 0,/*0为未读， 1为已读*/
     `notice` varchar(125) NOT NULL,
     PRIMARY KEY (`noticeid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
