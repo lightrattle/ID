@@ -12,5 +12,4 @@ public interface BlacklistMapper {
     public boolean insertOneBlacklist(int userid, int attentionuserid);
 
     public boolean deleteOneBlacklist(int userid, int attentionuserid);
-
 }

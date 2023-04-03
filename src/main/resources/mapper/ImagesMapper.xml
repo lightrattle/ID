@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.id.mapper.ImagesMapper">
     <select id="getImagesListByUserid" resultType="java.util.HashMap">
-        select imageid, userid, classifyid, classfilyname, uptime, image from images, classfily
-            where images.classifyid = classfily.classfilyid and userid = #{userid}
+        select imageid, userid, images.classifyid, classifyname, uptime, image from images, classify
+            where images.classifyid = classify.classifyid and userid = #{userid}
     </select>
 
-    <select id="getImagesListByClassifyid" resultType="java.util.HashMap">
-        select imageid, userid, classifyid, classfilyname, uptime, image from images, classfily
-            where images.classifyid = classfily.classfilyid and classifyid = #{classifyid}
+    <select id="getImagesListByClassifyname" resultType="java.util.HashMap">
+        select imageid, userid, images.classifyid, classifyname, uptime, image from images, classify
+            where images.classifyid = classify.classifyid
     </select>
 
     <insert id="insertOneImage">

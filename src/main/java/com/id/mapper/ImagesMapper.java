@@ -10,7 +10,7 @@ import java.util.Map;
 public interface ImagesMapper {
     public List<Map<String, Object>> getImagesListByUserid(int userid);
 
-    public List<Map<String, Object>> getImagesListByClassifyid(int classifyid);
+    public List<Map<String, Object>> getImagesListByClassifyname(String classifyname);
 
     public boolean insertOneImage(int userid, int classifyid, Date uptime, String image);
 
