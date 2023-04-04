@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.id.mapper.ImagesMapper">
+    <select id="getImagesListAll" resultType="java.util.HashMap">
+        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        where images.classifyid = classify.classifyid and images.userid = user.userid and images.status = 1
+    </select>
+
     <select id="getImagesListByUserid" resultType="java.util.HashMap">
-        select imageid, userid, images.classifyid, classifyname, uptime, image from images, classify
-            where images.classifyid = classify.classifyid and userid = #{userid}
+        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+            where images.classifyid = classify.classifyid and images.userid = #{userid}
+              and images.userid = user.userid and images.status = 1
     </select>
 
     <select id="getImagesListByClassifyname" resultType="java.util.HashMap">
-        select imageid, userid, images.classifyid, classifyname, uptime, image from images, classify
-            where images.classifyid = classify.classifyid
+        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+            where images.classifyid = classify.classifyid and classify.classifyname = #{classifyname}
+              and images.userid = user.userid and images.status = 1
+    </select>
+
+    <select id="getOneImage" resultType="java.util.HashMap">
+        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        where images.classifyid = classify.classifyid and images.imageid = #{imageid} and images.userid = user.userid
     </select>
 
     <insert id="insertOneImage">
@@ -19,4 +31,14 @@
     <delete id="deleteOneImage">
         delete from images where imageid = #{imageid}
     </delete>
+
+    <update id="updatestatus">
+        update `images` set
+            status = 1 where imageid = #{imageid}
+    </update>
+
+    <update id="updateclassify">
+        update `images` set
+            classifyid = #{classifyid} where imageid = #{imageid}
+    </update>
 </mapper>

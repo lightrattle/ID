@@ -52,9 +52,10 @@ DROP TABLE IF EXISTS  `Images`;
 CREATE TABLE `Images` (
     `imageid` int(10) NOT NULL AUTO_INCREMENT,
     `userid` int(10) NOT NULL,
-    `classifyid` int(10) NOT NULL REFERENCES Classfily(`classfilyid`),
+    `classifyid` int(10) NOT NULL REFERENCES Classify(`classifyid`),
     `uptime` datetime NOT NULL,
     `image` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `status` int(1) NOT NULL NULL DEFAULT 0,
     PRIMARY KEY (`imageid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 

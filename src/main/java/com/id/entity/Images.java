@@ -11,6 +11,8 @@ public class Images {
     private Date uptime;
     private String image;
 
+    private int status;
+
     public int getImageid() {
         return imageid;
     }
@@ -49,5 +51,13 @@ public class Images {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

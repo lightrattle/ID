@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>图片分享-首页</title>
+    <title>图片分享-</title>
     <script src="./jQuery/jquery-3.5.1.slim.min.js"></script>
     <script src="./jQuery/jquery-3.5.1.min.js"></script>
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.min.css">
@@ -14,6 +14,7 @@
 <body>
 <div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
     <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
+        <input type="text" style="float: left;font-size: 36px" id="name" readonly value="游客">
         <input type="button" class="ui-button" style="float: right;font-size: 36px" id="login" value="登录">
     </div>
     <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
@@ -21,8 +22,6 @@
         text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
             首页(游客端//包含图片展示、登录按钮)
         </div>
-    </div>
-    <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
     </div>
 </div>
 </body>

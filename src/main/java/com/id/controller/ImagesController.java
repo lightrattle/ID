@@ -1,12 +1,19 @@
 package com.id.controller;
 
 import com.id.service.ImagesService;
+import com.id.utils.MultipartFileToFile;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +25,11 @@ public class ImagesController {
     @Autowired
     private ImagesService imagesService;
 
+    @RequestMapping("/getImagesListAll")
+    public List<Map<String, Object>> getImagesListAll(){
+        return imagesService.getImagesListAll();
+    }
+
     @RequestMapping("/getImagesListByUserid")
     public List<Map<String, Object>> getImagesListByUserid(int userid){
         return imagesService.getImagesListByUserid(userid);
@@ -28,13 +40,37 @@ public class ImagesController {
         return imagesService.getImagesListByClassifyname(classifyname);
     }
 
+    @RequestMapping("/getOneImage")
+    public List<Map<String, Object>> getOneImage(int imageid){
+        return imagesService.getOneImage(imageid);
+    }
+
     @RequestMapping("/insertOneImage")
     public boolean insertOneImage(int userid, int classifyid, Date uptime, String image){
         return imagesService.insertOneImage(userid, classifyid, uptime, image);
     }
 
+    @RequestMapping("/insertOneImageFile")
+    public String insertOneImageFile(HttpServletRequest request, HttpServletRequest response, HttpSession session){
+        MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest) request;
+        MultipartFile multipartFile = multipartRequest.getFile("file");
+        assert multipartFile != null;
+        MultipartFileToFile.saveMultipartFile(multipartFile, "src/main/resources/static/images");
+        return MultipartFileToFile.saveMultipartFile(multipartFile, "target/classes/static/images");
+    }
+
     @RequestMapping("/deleteOneImage")
     public boolean deleteOneImage(int imageid){
         return imagesService.deleteOneImage(imageid);
+    }
+
+    @RequestMapping("/updatestatus")
+    public boolean updatestatus(int imageid) {
+        return imagesService.updatestatus(imageid);
+    }
+
+    @RequestMapping("/updateclassify")
+    public boolean updateclassify(int imageid, int classifyid){
+        return imagesService.updateclassify(imageid, classifyid);
     }
 }

@@ -18,7 +18,7 @@
     <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
         <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
         text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
-            <form action="/user/loginUser" method="post">
+            <form id="form" onclick="return avoidJump()">
                 <div class="head">
                     <span>账号登录</span>
                 </div>
@@ -40,8 +40,6 @@
             </form>
         </div>
     </div>
-    <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
-    </div>
 </div>
 </body>
 <script>
@@ -54,6 +52,34 @@
         $(document).on('click', '#chooseTohome', function(){
             location.replace("index.html");
         });
+        $(document).on('click', '#chooseTologin' , function () {
+            var result;
+            $.ajax({
+                url: "/user/loginUser",
+                type: "post",
+                data: {
+                    username: $("#username").val(),
+                    password: $("#password").val()
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    result = data;
+                },
+                error: function (errorMsg) {
+                    alert("error!" + errorMsg);
+                    console.log(errorMsg);
+                }
+            });
+            localStorage.setItem("loginUser", result['loginUser']);
+            localStorage.setItem("userid", result['userid']);
+            alert(result['msg']);
+            location.href ='/home.html';
+        });
     });
+    function avoidJump(){
+        return false;
+    }
+
 </script>
 </html>

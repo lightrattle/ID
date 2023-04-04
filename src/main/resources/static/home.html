@@ -14,15 +14,39 @@
 <body>
 <div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
     <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
-        <input type="button" class="ui-button" style="height:100%;float: right;font-size: 36px" id="chooseTologgout" value="安全退出">
+        <input type="text" style="width: 18%;height: 100%;float:left;font-size: 36px;text-align: center;" id="name" readonly value="未登录">
+        <input type="button" class="ui-button" style="height:100%;float: right;font-size: 36px;text-align: center;" id="chooseTologgout" value="安全退出">
     </div>
     <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
         <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
         text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
+            <div id="list" style="width: 100%;height: 5%;position: fixed;">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="上传" id="upload">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="全部" id="classify_-1">
+            </div>
+            <br>
+            <div id="imageslist" style="width: 100%;height: auto;text-align: center">
 
+            </div>
         </div>
     </div>
     <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
+        <div id="uponeimage" style="position: fixed;width: 80%;height: 80%;top: 5%;left: 10%;
+        border: 1px solid #000;z-index: 999;background-color: #FFF;display: none">
+            <label style="font-size: 36px;float: left" for="uploadclassify">图片所属分类:</label>
+            <select style="font-size: 36px" id="uploadclassify">
+                <option value=""></option>
+            </select>
+            <input type="file" id="uploadimage" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">
+            <input id="sureupload" type="button" class="ui-button" style="height: 36px;width: 15%" value="提交">
+            <input id="closeupload" type="button" class="ui-button" style="float: right;height: 36px;width: 10%;
+                background-color: #ccc"
+                   value="关闭 X"><br>
+            <img id="showimage" style="width: auto;height: 80%;" src="" alt="请上传图片">
+            <div id="path"></div>
+        </div>
     </div>
 </div>
 </body>
@@ -41,7 +65,123 @@
                 error: function (error) {}
             });
             location.reload();
-        })
+        });
+
+        $("#name").val(localStorage.getItem("loginUser"));
+
+        document.getElementById("uploadimage").onchange = function(){
+            var file = this.files;
+            var reader = new FileReader();
+            reader.readAsDataURL(file[0]);
+            reader.onload = function ()
+            {
+                var image = document.getElementById("showimage");
+                image.src = reader.result;
+            };
+        }
+
+        $(document).on('click', '#upload', function(){
+            $("#uponeimage").show();
+        });
+        $(document).on('click', '#closeupload', function(){
+            $("#uponeimage").hide();
+        });
+        $(document).on('click', '#sureupload', function(){
+            var timenow = new Date();
+            var formData = new FormData();
+            var userid = localStorage.getItem("userid");
+            var classifyid = $("#uploadclassify").val();
+            var imagestring;
+            formData.set("file", document.getElementById('uploadimage').files[0]);
+            $.ajax({
+                url: "images/insertOneImageFile",
+                type: "post",
+                data: formData,
+                async: false,
+                cache: false,
+                processData: false,   // 不处理发送的数据
+                contentType: false,   // 不设置Content-Type请求头
+                success:function (data) {
+                    $("#path").text(data);
+                    console.log(data);
+                },
+                error: function(error){
+                    imagestring = "";
+                    alert("上传图片出错！");
+                }
+            });
+            $.ajax({
+                url: "images/insertOneImage",
+                type: "post",
+                data: {
+                    userid: userid,
+                    classifyid: classifyid,
+                    uptime: timenow,
+                    image: $("#path").text()
+                },
+                async: false,
+                success:function (data) {
+                    alert("上传成功！等待管理员审核！");
+                    $("#showimage").attr("src", "");
+                    $("#path").text("");
+                    $("#uponeimage").hide();
+                }
+            });
+        });
+
+
+
+        $.ajax({
+            url: "classify/getListClassify",
+            type: "post",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function(data){
+                var selectedObj = $("#list");
+                for(var i = 0; i < data.length; i++){
+                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 13%;" +
+                        "text-align: center;float: left' value='" + data[i].classifyname + "' id='classify_" +
+                        data[i].classifyid + "'>");
+                    $("#uploadclassify").append("<option value='" + data[i].classifyid + "'>" +
+                        data[i].classifyname + "</option>");
+                }
+            },
+            error: function(error){}
+        });
+
+        //访问图片元素获取链接
+        $.ajax({
+            url: "images/getImagesListAll",
+            type: "post",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function(data){
+                var selectedObj = $("#imageslist");
+                if(data.length === 0){
+                    selectedObj.append("该模块暂无图片！");
+                }
+                for(var i = 0;i < data.length; i++){
+                    selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                        "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                        "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                        "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/>" +
+                        "<div class='comment' style='width: 100%;height: 100px;background-color: #CCC;border: 1px solid #000'>评论区</div>" +
+                        "</div>");
+                }
+            },
+            error: function(error){}
+        });
+        // 加入图片元素
+
+            //为加入的图片元素绑定事件
+        $(document).on('click', '.comment', function(){
+            pthis = $(this);
+            var imageid = pthis.parents().attr("id").split("_")
+                [pthis.parents().attr("id").split("_").length - 1];
+            //TODO 加入评论内容以及评论框。
+        });
     });
 </script>
 </html>

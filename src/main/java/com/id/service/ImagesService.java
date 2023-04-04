@@ -15,6 +15,11 @@ public class ImagesService implements ImagesServiceImpl {
     ImagesMapper imagesMapper;
 
     @Override
+    public List<Map<String, Object>> getImagesListAll() {
+        return imagesMapper.getImagesListAll();
+    }
+
+    @Override
     public List<Map<String, Object>> getImagesListByUserid(int userid) {
         return imagesMapper.getImagesListByUserid(userid);
     }
@@ -25,6 +30,11 @@ public class ImagesService implements ImagesServiceImpl {
     }
 
     @Override
+    public List<Map<String, Object>> getOneImage(int imageid) {
+        return imagesMapper.getOneImage(imageid);
+    }
+
+    @Override
     public boolean insertOneImage(int userid, int classifyid, Date uptime, String image) {
         return imagesMapper.insertOneImage(userid, classifyid, uptime, image);
     }
@@ -32,5 +42,15 @@ public class ImagesService implements ImagesServiceImpl {
     @Override
     public boolean deleteOneImage(int imageid) {
         return imagesMapper.deleteOneImage(imageid);
+    }
+
+    @Override
+    public boolean updatestatus(int imageid) {
+        return imagesMapper.updatestatus(imageid);
+    }
+
+    @Override
+    public boolean updateclassify(int imageid, int classifyid) {
+        return imagesMapper.updateclassify(imageid,classifyid);
     }
 }
