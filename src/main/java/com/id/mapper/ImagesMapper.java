@@ -13,13 +13,14 @@ public interface ImagesMapper {
 
     public List<Map<String, Object>> getImagesListByClassifyname(String classifyname);
 
+    public List<Map<String, Object>> getImagesListByNotshenhe();
+
     public List<Map<String, Object>> getOneImage(int imageid);
 
     public boolean insertOneImage(int userid, int classifyid, Date uptime, String image);
 
     public boolean deleteOneImage(int imageid);
 
-    public boolean updatestatus(int imageid);
+    public boolean updatestatus(int imageid, String classifyname);
 
-    public boolean updateclassify(int imageid, int classifyid);
 }

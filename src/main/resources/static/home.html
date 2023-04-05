@@ -259,7 +259,6 @@
                         data[i].classifyname + "</option>");
                 }
                 if(localStorage.getItem("status")!==null && localStorage.getItem("status") === 0){//登录账户为管理员
-                    //TODO 添加图片审核功能
                     selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 26%;" +
                         "text-align: center;float: left' value='图片审核' id='shenhe'>");
                 }
@@ -330,6 +329,55 @@
                 });
             });
         }
+
+        $(document).on('click', '#shenhe', function() {
+            $("#imageslist").empty();
+            $.ajax({
+                url: "images/getImagesListByNotshenhe",
+                type: "post",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var selectedObj = $("#imageslist");
+                    if (data.length === 0) {
+                        selectedObj.append("暂无待审核图片！");
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                            "<input type='button' class='pass' value='通过'>" +
+                            "上传者:<input class='un' disabled value='" + data[i].username + "'>" +
+                            "上传时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                            "所选分类:<input class='classify' type='text' value='" + data[i].classifyname + "'>" +
+                            "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
+                            "</div>");
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        });
+
+        $(document).on('click', '.pass', function(){
+            var pthis=$(this);
+            var imageid = pthis.parent().attr("id").split("_")[pthis.parent().attr("id").split("_").length - 1];
+            var classifyname = pthis.parent().find("classify").val();
+            $.ajax({
+                url: "images/updatestatus",
+                type: "post",
+                data: {
+                    imageid: imageid,
+                    classifyname: classifyname
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    alert("处理成功！");
+                },
+                error: function (error) {
+                }
+            });
+        });
 
         //为加入的图片元素绑定评论显示事件
         $(document).on('click', '.showcomment', function(){

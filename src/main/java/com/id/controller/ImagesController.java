@@ -40,6 +40,11 @@ public class ImagesController {
         return imagesService.getImagesListByClassifyname(classifyname);
     }
 
+    @RequestMapping("/getImagesListByNotshenhe")
+    public List<Map<String, Object>> getImagesListByNotshenhe(){
+        return imagesService.getImagesListByNotshenhe();
+    }
+
     @RequestMapping("/getOneImage")
     public List<Map<String, Object>> getOneImage(int imageid){
         return imagesService.getOneImage(imageid);
@@ -65,12 +70,8 @@ public class ImagesController {
     }
 
     @RequestMapping("/updatestatus")
-    public boolean updatestatus(int imageid) {
-        return imagesService.updatestatus(imageid);
+    public boolean updatestatus(int imageid, String classifyname) {
+        return imagesService.updatestatus(imageid, classifyname);
     }
 
-    @RequestMapping("/updateclassify")
-    public boolean updateclassify(int imageid, int classifyid){
-        return imagesService.updateclassify(imageid, classifyid);
-    }
 }

@@ -30,6 +30,11 @@ public class ImagesService implements ImagesServiceImpl {
     }
 
     @Override
+    public List<Map<String, Object>> getImagesListByNotshenhe() {
+        return imagesMapper.getImagesListByNotshenhe();
+    }
+
+    @Override
     public List<Map<String, Object>> getOneImage(int imageid) {
         return imagesMapper.getOneImage(imageid);
     }
@@ -45,12 +50,8 @@ public class ImagesService implements ImagesServiceImpl {
     }
 
     @Override
-    public boolean updatestatus(int imageid) {
-        return imagesMapper.updatestatus(imageid);
+    public boolean updatestatus(int imageid, String classifyname) {
+        return imagesMapper.updatestatus(imageid, classifyname);
     }
 
-    @Override
-    public boolean updateclassify(int imageid, int classifyid) {
-        return imagesMapper.updateclassify(imageid,classifyid);
-    }
 }

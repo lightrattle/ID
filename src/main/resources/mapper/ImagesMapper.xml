@@ -18,6 +18,11 @@
               and images.userid = user.userid and images.status = 1
     </select>
 
+    <select id="getImagesListByNotshenhe" resultType="java.util.HashMap">
+        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        where images.classifyid = classify.classifyid and images.userid = user.userid and images.status = 0
+    </select>
+
     <select id="getOneImage" resultType="java.util.HashMap">
         select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
         where images.classifyid = classify.classifyid and images.imageid = #{imageid} and images.userid = user.userid
@@ -34,11 +39,8 @@
 
     <update id="updatestatus">
         update `images` set
-            status = 1 where imageid = #{imageid}
-    </update>
-
-    <update id="updateclassify">
-        update `images` set
-            classifyid = #{classifyid} where imageid = #{imageid}
+            status = 1,
+            classifyid = (select classifyid from classify where classifyname = #{classifyname})
+            where imageid = #{imageid};
     </update>
 </mapper>
