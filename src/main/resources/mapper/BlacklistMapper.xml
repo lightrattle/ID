@@ -7,11 +7,18 @@
             where blacklist.userid = u.userid
     </select>
 
+    <select id="judgeBlacklist" resultType="java.util.HashMap">
+        select blackuserid from blacklist where blacklist.userid = #{userid}
+            and blackuserid = (select userid from user where user.username = #{nowimageusername})
+    </select>
+
     <insert id="insertOneBlacklist">
-        insert into `blacklist`(userid, blackuserid) VALUES (#{userid}, #{blackuserid})
+        insert into `blacklist`(userid, blackuserid) VALUES
+            (#{userid}, (select userid from user where username = #{nowimageusername}))
     </insert>
 
     <delete id="deleteOneBlacklist">
-        delete from `blacklist` where userid = #{userid} and blackuserid = #{blackuserid}
+        delete from `blacklist` where userid = #{userid} and
+            blackuserid = (select userid from user where username = #{nowimageusername})
     </delete>
 </mapper>

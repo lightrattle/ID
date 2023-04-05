@@ -22,13 +22,18 @@ public class AttentionController {
         return attentionService.getListAttentionByUserid(userid);
     }
 
+    @RequestMapping("/judgeAttention")
+    public int judgeAttention(int userid, String nowimageusername){
+        return attentionService.judgeAttention(userid, nowimageusername);
+    }
+
     @RequestMapping("/insertOneAttention")
-    public boolean insertOneAttention(int userid, int attentionuserid){
-        return attentionService.insertOneAttention(userid, attentionuserid);
+    public boolean insertOneAttention(int userid, String nowimageusername){
+        return attentionService.insertOneAttention(userid, nowimageusername);
     }
 
     @RequestMapping("/deleteOneAttention")
-    public boolean deleteOneAttention(int userid, int attentionuserid){
-        return attentionService.deleteOneAttention(userid, attentionuserid);
+    public boolean deleteOneAttention(int userid, String nowimageusername){
+        return attentionService.deleteOneAttention(userid, nowimageusername);
     }
 }

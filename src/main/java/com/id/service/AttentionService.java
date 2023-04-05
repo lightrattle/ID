@@ -19,12 +19,17 @@ public class AttentionService implements AttentionServiceImpl {
     }
 
     @Override
-    public boolean insertOneAttention(int userid, int attentionuserid) {
-        return attentionMapper.insertOneAttention(userid, attentionuserid);
+    public int judgeAttention(int userid, String nowimageusername) {
+        return attentionMapper.judgeAttention(userid, nowimageusername) !=null?0:1;
     }
 
     @Override
-    public boolean deleteOneAttention(int userid, int attentionuserid) {
-        return attentionMapper.deleteOneAttention(userid, attentionuserid);
+    public boolean insertOneAttention(int userid, String nowimageusername) {
+        return attentionMapper.insertOneAttention(userid, nowimageusername);
+    }
+
+    @Override
+    public boolean deleteOneAttention(int userid, String nowimageusername) {
+        return attentionMapper.deleteOneAttention(userid, nowimageusername);
     }
 }

@@ -22,13 +22,18 @@ public class BlacklistController {
         return blacklistService.getListBlacklistByUserid(userid);
     }
 
+    @RequestMapping("/judgeBlacklist")
+    public int judgeBlacklist(int userid, String nowimageusername){
+        return blacklistService.judgeBlacklist(userid, nowimageusername);
+    }
+
     @RequestMapping("/insertOneBlacklist")
-    public boolean insertOneBlacklist(int userid, int attentionuserid){
-        return blacklistService.insertOneBlacklist(userid, attentionuserid);
+    public boolean insertOneBlacklist(int userid, String nowimageusername){
+        return blacklistService.insertOneBlacklist(userid, nowimageusername);
     }
 
     @RequestMapping("/deleteOneBlacklist")
-    public boolean deleteOneBlacklist(int userid, int attentionuserid){
-        return blacklistService.deleteOneBlacklist(userid, attentionuserid);
+    public boolean deleteOneBlacklist(int userid, String nowimageusername){
+        return blacklistService.deleteOneBlacklist(userid, nowimageusername);
     }
 }

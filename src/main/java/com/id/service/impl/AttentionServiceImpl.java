@@ -9,7 +9,9 @@ import java.util.Map;
 public interface AttentionServiceImpl {
     public List<Map<String, Object>> getListAttentionByUserid(int userid);
 
-    public boolean insertOneAttention(int userid, int attentionuserid);
+    public int judgeAttention(int userid, String nowimageusername);
 
-    public boolean deleteOneAttention(int userid, int attentionuserid);
+    public boolean insertOneAttention(int userid, String nowimageusername);
+
+    public boolean deleteOneAttention(int userid, String nowimageusername);
 }

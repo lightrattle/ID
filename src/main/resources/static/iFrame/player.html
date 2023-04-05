@@ -2,9 +2,265 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>图片分享-用户</title>
+    <title>图片分享-用户首页</title>
+    <script src="../jQuery/jquery-3.5.1.slim.min.js"></script>
+    <script src="../jQuery/jquery-3.5.1.min.js"></script>
+    <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.min.css">
+    <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.structure.min.css">
+    <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.theme.min.css">
+    <link rel = "stylesheet" href = "../css/content.css">
+    <script src="../jQueryUI-1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
-用户端//包含图片浏览，其中可以关注或者拉黑图片发布者
+<button id="back" style="float: left;width: 20px;height: 30px;font-size: 26px">返回</button><br>
+<button id="attention" style="float: left;width: 90px;height: 30px;font-size: 26px">关注/取消关注</button>
+<button id="toblacklist" style="float: left;width: 90px;height: 30px;font-size: 26px">拉黑/取消拉黑</button><br>
+<div id="content" style="width: 100%;height: auto">
+
+</div>
 </body>
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "user/usernametouserid",
+            type: "post",
+            data: {
+                username: localStorage.getItem("nowimageusername")
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                localStorage.setItem("nowimageuserid", data);
+            },
+            error: function (error) {
+            }
+        });
+
+        var contentObj = $("#content");
+        contentObj.append("<div id='image_'" + localStorage.getItem("nowimageid") + ">" +
+            "发布者:<input class='un' disabled value='" + localStorage.getItem("nowimageusername") + "'>" +
+            "发布时间:<input class='ut' type='datetime' value='" + localStorage.getItem("nowuptime") + "' >" +
+            "<img class='ig' style='width: 70%;height: auto' src='" + localStorage.getItem("nowimagesrc") + "' alt='图片'/><br>" +
+            "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
+            "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+            "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+            "</div>");
+        $.ajax({
+            url: "comments/getListCommentsByExcludeBlacklist",
+            type: "post",
+            data: {
+                imageid: localStorage.getItem("nowimageid"),
+                userid: localStorage.getItem("userid")
+            },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
+                        data[i].comment +
+                        "</textarea><br>");
+                }
+            },
+            error: function (error) {
+            }
+        });
+
+        //提交评论事件
+        function canComment(commentuserid, imageusername){
+            var res = false;
+            $.ajax({
+                url: "comments/canInsertOne",
+                type: "post",
+                data: {
+                    commentuserid : commentuserid,
+                    imageusername: imageusername
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if(data > 0) res = true;
+                },
+                error: function (error) {
+                }
+            });
+            return res;
+        }
+        $(document).on('click', '.submitcomment', function (){
+            var pthis = $(this);
+            if(pthis.prev().val() !== "" && localStorage.getItem("status") === "2"
+                && (canComment(localStorage.getItem("userid"), localStorage.getItem("nowimageusername")))){
+                $.ajax({
+                    url: "comments/insertOneComment",
+                    type: "post",
+                    data: {
+                        commentuserid : localStorage.getItem("userid"),
+                        imageid: localStorage.getItem("nowimageid"),
+                        comment: pthis.prev().val()
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        alert("评论成功！");
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+            else{}
+        });
+
+        //fanhui事件
+        $(document).on('click', '#back', function(){
+            localStorage.setItem("nowimageusername", "");
+            localStorage.setItem("nowimageid", "");
+            localStorage.setItem("nowuptime", "");
+            localStorage.setItem("nowimagesrc", "");
+            if(localStorage.getItem("status") !== null){
+                location.href = "../home.html";
+            }
+            else{
+                location.href = "../index.html";
+            }
+        });
+
+        function judgeAttention(userid, nowimageusername){
+            var res = false;
+            $.ajax({
+                url: "attention/judgeAttention",
+                type: "post",
+                data: {
+                    userid : userid,
+                    nowimageusername: nowimageusername
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if(data > 0) res = true;
+                },
+                error: function (error) {
+                }
+            });
+            return res;
+        }
+        if(localStorage.getItem("status") !== null){
+            if(judgeAttention(localStorage.getItem("userid"), localStorage.getItem("nowimageusername"))){
+                $("#attention").val("关注");
+            }
+            else $("#attention").val("取消关注");
+        }
+
+        function judgeBlacklist(userid, nowimageusername){
+            var res = false;
+            $.ajax({
+                url: "blacklist/judgeBlacklist",
+                type: "post",
+                data: {
+                    userid : userid,
+                    nowimageusername: nowimageusername
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if(data > 0) res = true;
+                },
+                error: function (error) {
+                }
+            });
+            return res;
+        }
+        if(localStorage.getItem("status") !== null){
+            if(judgeBlacklist(localStorage.getItem("userid"), localStorage.getItem("nowimageusername"))){
+                $("#toblacklist").val("拉黑");
+            }
+            else $("#toblacklist").val("取消拉黑");
+        }
+
+        $(document).on('click', '#attention', function(){
+            if(localStorage.getItem("status") !== null){
+                if($(this).val() === "关注"){
+                    $.ajax({
+                        url: "attention/insertOneAttention",
+                        type: "post",
+                        data: {
+                            userid : userid,
+                            nowimageusername: nowimageusername
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            $("#attention").val("取消关注");
+                            alert("已关注！");
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+                else if($(this).val() === "取消关注"){
+                    $.ajax({
+                        url: "attention/deleteOneAttention",
+                        type: "post",
+                        data: {
+                            userid : userid,
+                            nowimageusername: nowimageusername
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            $("#attention").val("关注");
+                            alert("已取消关注！");
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+            }
+            else{}
+        });
+        $(document).on('click', '#toblacklist', function(){
+            if(localStorage.getItem("status") !== null){
+                if($(this).val() === "拉黑"){
+                    $.ajax({
+                        url: "blacklist/insertOneBlacklist",
+                        type: "post",
+                        data: {
+                            userid : userid,
+                            nowimageusername: nowimageusername
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            $("#toblacklist").val("取消拉黑");
+                            alert("已拉黑！");
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+                else if($(this).val() === "取消拉黑"){
+                    $.ajax({
+                        url: "blacklist/deleteOneBlacklist",
+                        type: "post",
+                        data: {
+                            userid : userid,
+                            nowimageusername: nowimageusername
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function (data) {
+                            $("#toblacklist").val("拉黑");
+                            alert("已取消拉黑！");
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+            }
+            else{}
+        });
+
+        if(localStorage.getItem("userid") === localStorage.getItem("")){
+
+        }
+    });
+</script>
 </html>

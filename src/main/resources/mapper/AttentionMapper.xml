@@ -7,11 +7,18 @@
             where attention.userid = u.userid
     </select>
 
+    <select id="judgeAttention" resultType="java.util.HashMap">
+        select attentionuserid from attention where attention.userid = #{userid}
+            and attentionuserid = (select userid from user where user.username = #{nowimageusername})
+    </select>
+
     <insert id="insertOneAttention">
-        insert into `attention`(userid, attentionuserid) VALUES (#{userid}, #{attentionuserid})
+        insert into `attention`(userid, attentionuserid) VALUES
+            (#{userid}, (select userid from user where username = #{nowimageusername}))
     </insert>
 
     <delete id="deleteOneAttention">
-        delete from `attention` where userid = #{userid} and attentionuserid = #{attentionuserid}
+        delete from `attention` where userid = #{userid} and
+            attentionuserid = (select userid from user where username = #{nowimageusername})
     </delete>
 </mapper>

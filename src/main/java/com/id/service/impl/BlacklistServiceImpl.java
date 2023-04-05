@@ -9,7 +9,9 @@ import java.util.Map;
 public interface BlacklistServiceImpl {
     public List<Map<String, Object>> getListBlacklistByUserid(int userid);
 
-    public boolean insertOneBlacklist(int userid, int attentionuserid);
+    public int judgeBlacklist(int userid, String nowimageusername);
 
-    public boolean deleteOneBlacklist(int userid, int attentionuserid);
+    public boolean insertOneBlacklist(int userid, String nowimageusername);
+
+    public boolean deleteOneBlacklist(int userid, String nowimageusername);
 }
