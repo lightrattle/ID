@@ -89,6 +89,41 @@
                 }
             });
         }
+
+        //访问其他分类
+        for(var i = 0; i < classifyList.length; i++){
+            $(document).on('click', "#classify_" + classifyList[i].classifyid +"", function(){
+                $("#imageslist").empty();
+                $.ajax({
+                    url: "images/getImagesListByClassifyname",
+                    type: "post",
+                    data: {
+                        classifyname: classifyList[i].classifyname
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        var selectedObj = $("#imageslist");
+                        if (data.length === 0) {
+                            selectedObj.append("该模块暂无图片！");
+                        }
+                        for (var i = 0; i < data.length; i++) {
+                            selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                                "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                                "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                                "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
+                                "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
+                                "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                                "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                                "</div>");
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            });
+        }
+
         //为加入的图片元素绑定评论显示事件
         $(document).on('click', '.showcomment', function(){
             var pthis = $(this);

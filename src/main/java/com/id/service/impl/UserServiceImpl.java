@@ -9,4 +9,6 @@ public interface UserServiceImpl {
     boolean createUser (String nickname, String username, String password);
 
     int usernametouserid(String username);
+
+    int doanswer(int userid, int cho1, int cho2, int cho3, int cho4, int cho5);
 }

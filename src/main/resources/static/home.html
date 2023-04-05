@@ -22,6 +22,8 @@
         text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
             <div id="list" style="width: 100%;height: 5%;position: fixed;">
                 <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="答题" id="answer">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
                     ;float: left" value="上传" id="upload">
                 <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
                     ;float: left" value="全部" id="classify_-1">
@@ -33,8 +35,7 @@
         </div>
     </div>
     <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
-        <div id="uponeimage" style="position: fixed;width: 80%;height: 80%;top: 5%;left: 10%;
-        border: 1px solid #000;z-index: 999;background-color: #FFF;display: none">
+        <div id="uponeimage" style="position: fixed;width: 80%;height: 80%;top: 5%;left: 10%;border: 1px solid #000;z-index: 999;background-color: #FFF;display: none">
             <label style="font-size: 36px;float: left" for="uploadclassify">图片所属分类:</label>
             <select style="font-size: 36px" id="uploadclassify">
                 <option value=""></option>
@@ -47,11 +48,53 @@
             <img id="showimage" style="width: auto;height: 80%;" src="" alt="请上传图片">
             <div id="path"></div>
         </div>
+        <div id="todoanswer" style="position: fixed;width: 80%;height: 80%;top: 5%;left: 10%;border: 1px solid #000;z-index: 999;background-color: #FFF;display: none">
+            <input id="closeanswer" type="button" class="ui-button" style="float: right;height: 36px;width: 10%;
+                background-color: #ccc"
+                   value="关闭 X"><br>
+            <div>
+                <span>1.概括一下核聚变的磁约束方式：</span>
+                <div><input type="radio" name="selectOne-1" value="0">(A)我知道</div>
+                <div><input type="radio" name="selectOne-1" value="1">(B)我不知道</div>
+                <div><input type="radio" name="selectOne-1" value="2">(C)我怎么知道</div>
+                <div><input type="radio" name="selectOne-1" value="3">(D)我知道才不对劲</div>
+            </div>
+            <div>
+                <span>2.黑洞与白洞的内在联系是：</span>
+                <div><input type="radio" name="selectOne-2" value="0">(A)我不知道</div>
+                <div><input type="radio" name="selectOne-2" value="1">(B)我肯定不知道</div>
+                <div><input type="radio" name="selectOne-2" value="2">(C)我怎么可能知道</div>
+                <div><input type="radio" name="selectOne-2" value="3">(D)我知道才不对劲</div>
+            </div>
+            <div>
+                <span>3.时光机是什么时间发明的：</span>
+                <div><input type="radio" name="selectOne-3" value="0">(A)我不知道</div>
+                <div><input type="radio" name="selectOne-3" value="1">(B)我肯定不知道</div>
+                <div><input type="radio" name="selectOne-3" value="2">(C)我怎么可能知道</div>
+                <div><input type="radio" name="selectOne-3" value="3">(D)我知道才不对劲</div>
+            </div>
+            <div>
+                <span>4.穿越到异世界的第一件事是什么：</span>
+                <div><input type="radio" name="selectOne-3" value="0">(A)我不知道</div>
+                <div><input type="radio" name="selectOne-3" value="1">(B)我肯定不知道</div>
+                <div><input type="radio" name="selectOne-3" value="2">(C)我怎么可能知道</div>
+                <div><input type="radio" name="selectOne-3" value="3">(D)我知道才不对劲</div>
+            </div>
+            <div>
+                <span>5.地球固态物理学有几种流派：</span>
+                <div><input type="radio" name="selectOne-3" value="0">(A)我不知道</div>
+                <div><input type="radio" name="selectOne-3" value="1">(B)我肯定不知道</div>
+                <div><input type="radio" name="selectOne-3" value="2">(C)我怎么可能知道</div>
+                <div><input type="radio" name="selectOne-3" value="3">(D)我知道才不对劲</div>
+            </div>
+            <input id="sureanswer" type="button" class="ui-button" value="提交">
+        </div>
     </div>
 </div>
 </body>
 <script>
     $(document).ready(function(){
+        var classifyList;
         $(document).on('click', '#chooseTologgout', function () {
             $.ajax({
                 url: "user/logout",
@@ -129,6 +172,76 @@
             });
         });
 
+        $(document).on('click', '#answer', function(){
+            $("#todoanswer").show();
+        });
+        $(document).on('click', '#closeanswer', function(){
+            $("#uponeimage").hide();
+        });
+        $(document).on('click', '#sureanswer', function(){
+            var pthis = $(this);
+            var select_1 = pthis.parents().find("input[name='selectOne-1']");
+            var select_1_cho;
+            for(var i=0; i<4; i++){
+                if(select_1[i].checked){
+                    select_1_cho = select_1[i].value;
+                    break;
+                }
+            }
+            var select_2 = pthis.parents().find("input[name='selectOne-2']");
+            var select_2_cho;
+            for(var i=0; i<4; i++){
+                if(select_2[i].checked){
+                    select_2_cho = select_2[i].value;
+                    break;
+                }
+            }
+            var select_3 = pthis.parents().find("input[name='selectOne-3']");
+            var select_3_cho;
+            for(var i=0; i<4; i++){
+                if(select_3[i].checked){
+                    select_3_cho = select_3[i].value;
+                    break;
+                }
+            }
+            var select_4 = pthis.parents().find("input[name='selectOne-4']");
+            var select_4_cho;
+            for(var i=0; i<4; i++){
+                if(select_4[i].checked){
+                    select_4_cho = select_4[i].value;
+                    break;
+                }
+            }
+            var select_5 = pthis.parents().find("input[name='selectOne-5']");
+            var select_5_cho;
+            for(var i=0; i<4; i++){
+                if(select_5[i].checked){
+                    select_5_cho = select_5[i].value;
+                    break;
+                }
+            }
+            $.ajax({
+                url: "user/doanswer",
+                type: "post",
+                data: {
+                    userid: localStorage.getItem("userid"),
+                    cho1: select_1_cho,
+                    cho2: select_2_cho,
+                    cho3: select_3_cho,
+                    cho4: select_4_cho,
+                    cho5: select_5_cho
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    if(data > 0) alert("答题通过！");
+                    else if(data < 0) alert("答题提交出错！");
+                    else alert("答题不通过！(小于80分)");
+                },
+                error(error){}
+            });
+        });
+
         $.ajax({
             url: "classify/getListClassify",
             type: "post",
@@ -136,6 +249,7 @@
             dataType: "json",
             async: false,
             success: function(data){
+                classifyList = data;
                 var selectedObj = $("#list");
                 for(var i = 0; i < data.length; i++){
                     selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 13%;" +
@@ -182,6 +296,41 @@
                 }
             });
         }
+
+        //访问其他分类
+        for(var i = 0; i < classifyList.length; i++){
+            $(document).on('click', "#classify_" + classifyList[i].classifyid +"", function(){
+                $("#imageslist").empty();
+                $.ajax({
+                    url: "images/getImagesListByClassifyname",
+                    type: "post",
+                    data: {
+                        classifyname: classifyList[i].classifyname
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        var selectedObj = $("#imageslist");
+                        if (data.length === 0) {
+                            selectedObj.append("该模块暂无图片！");
+                        }
+                        for (var i = 0; i < data.length; i++) {
+                            selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                                "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                                "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                                "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
+                                "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
+                                "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                                "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                                "</div>");
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            });
+        }
+
         //为加入的图片元素绑定评论显示事件
         $(document).on('click', '.showcomment', function(){
              var pthis = $(this);

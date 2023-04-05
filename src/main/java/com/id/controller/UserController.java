@@ -79,4 +79,9 @@ public class UserController {
     public int usernametouserid(String username){
         return userService.usernametouserid(username);
     }
+
+    @RequestMapping("/doanswer")
+    public int doanswer(int userid, int cho1, int cho2, int cho3, int cho4, int cho5){
+        return userService.doanswer(userid, cho1, cho2, cho3, cho4, cho5);
+    }
 }

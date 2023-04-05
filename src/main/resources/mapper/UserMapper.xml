@@ -12,4 +12,9 @@
     <insert id="createUser">
         insert into user (nickname, username, password, status) value (#{nickname},#{username},#{password}, 1)
     </insert>
+
+    <update id="setstatus">
+        update `user` set
+            status = 2 where userid = #{userid}
+    </update>
 </mapper>
