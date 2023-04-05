@@ -144,6 +144,11 @@
                     $("#uploadclassify").append("<option value='" + data[i].classifyid + "'>" +
                         data[i].classifyname + "</option>");
                 }
+                if(localStorage.getItem("status")!==null && localStorage.getItem("status") === 0){//登录账户为管理员
+                    //TODO 添加图片审核功能
+                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 26%;" +
+                        "text-align: center;float: left' value='图片审核' id='shenhe'>");
+                }
             },
             error: function(error){}
         });
@@ -231,8 +236,8 @@
         }
         $(document).on('click', '.submitcomment', function (){
             var pthis = $(this);
-            if(pthis.prev().val() !== "" && localStorage.getItem("status") === "2"
-            && (canComment(localStorage.getItem("userid"), pthis.parents().find(".un").val()))){
+            if(pthis.prev().val() !== "" && localStorage.getItem("status") !== null && localStorage.getItem("status") === "2"
+                && (canComment(localStorage.getItem("userid"), pthis.parents().find(".un").val()))){
                 $.ajax({
                     url: "comments/insertOneComment",
                     type: "post",

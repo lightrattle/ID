@@ -20,7 +20,17 @@
     <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
         <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
         text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
-            首页(游客端//包含图片展示、登录按钮)
+            <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
+        text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
+                <div id="list" style="width: 100%;height: 5%;position: fixed;">
+                    <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="全部" id="classify_-1">
+                </div>
+                <br>
+                <div id="imageslist" style="width: 100%;height: auto;text-align: center">
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -29,6 +39,100 @@
     $(document).ready(function(){
         $(document).on('click', '#login', function(event){
             location.replace("login.html");
+        });
+
+        $.ajax({
+            url: "classify/getListClassify",
+            type: "post",
+            data: {},
+            dataType: "json",
+            async: false,
+            success: function(data){
+                var selectedObj = $("#list");
+                for(var i = 0; i < data.length; i++){
+                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 13%;" +
+                        "text-align: center;float: left' value='" + data[i].classifyname + "' id='classify_" +
+                        data[i].classifyid + "'>");
+                    $("#uploadclassify").append("<option value='" + data[i].classifyid + "'>" +
+                        data[i].classifyname + "</option>");
+                }
+            },
+            error: function(error){}
+        });
+
+        getAll();
+        //访问图片元素获取链接
+        function getAll() {
+            $.ajax({
+                url: "images/getImagesListAll",
+                type: "post",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var selectedObj = $("#imageslist");
+                    if (data.length === 0) {
+                        selectedObj.append("该模块暂无图片！");
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                            "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                            "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                            "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
+                            "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
+                            "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                            "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                            "</div>");
+                    }
+                },
+                error: function (error) {
+                }
+            });
+        }
+        //为加入的图片元素绑定评论显示事件
+        $(document).on('click', '.showcomment', function(){
+            var pthis = $(this);
+            if(pthis.html() === "评论区") {
+                var imageid = pthis.parents().attr("id").split("_")
+                    [pthis.parents().attr("id").split("_").length - 1];
+                //TODO 加入评论内容
+                $.ajax({
+                    url: "comments/getListCommentsByExcludeBlacklist",
+                    type: "post",
+                    data: {
+                        imageid: imageid,
+                        userid: localStorage.getItem("userid")
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
+                                data[i].comment +
+                                "</textarea><br>");
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+            else{
+                pthis.html("评论区");
+            }
+        });
+
+        //点击发布者进入发布者的页面（展示其发布的内容）
+        $(document).on('click', '.un', function(){
+            var pthis = $(this);
+            var imageid = pthis.parents().attr("id").split("_")[pthis.parents().attr("id").split("_").length - 1];
+            var uptime = pthis.parents().find(".ut").val();
+            var imagesrc = pthis.parents().find(".ig").attr("src");
+            var imageusername = pthis.attr("value");
+            localStorage.setItem("nowimageusername", imageusername);
+            localStorage.setItem("nowimageid", imageid);
+            localStorage.setItem("nowuptime", uptime);
+            localStorage.setItem("nowimagesrc", imagesrc);
+            location.href = "./iFrame/player.html";
         });
     });
 </script>
