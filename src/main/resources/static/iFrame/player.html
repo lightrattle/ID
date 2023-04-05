@@ -109,7 +109,7 @@
             else{}
         });
 
-        //fanhui事件
+        //返回事件
         $(document).on('click', '#back', function(){
             localStorage.setItem("nowimageusername", "");
             localStorage.setItem("nowimageid", "");
@@ -257,9 +257,28 @@
             }
             else{}
         });
-
-        if(localStorage.getItem("userid") === localStorage.getItem("")){
-
+        contentObj.find("div").prepend("<input type='button' class='delete ui-button' " +
+            "style='height: 20px;width: 40px;font-size: 18px' value='删除'>");
+        if(localStorage.getItem("userid") === localStorage.getItem("nowimageuserid")){
+            contentObj.find("div").prepend("<input type='button' class='delete ui-button' " +
+                "style='height: 20px;width: 40px;font-size: 18px' value='删除'>");
+            $(document).on('click', '.delete', function(){
+                var pthis = $(this).parents();
+                $.ajax({
+                    url: "/images/deleteOneImage",
+                    type: "post",
+                    data: {
+                        imageid: localStorage.getItem("nowimageid")
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function(data) {
+                        pthis.remove();
+                        alert("删除该成功！");
+                    },
+                    error: function(error){}
+                });
+            });
         }
     });
 </script>
