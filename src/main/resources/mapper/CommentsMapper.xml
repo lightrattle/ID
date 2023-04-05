@@ -2,11 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.id.mapper.CommentsMapper">
     <select id="getListCommentsByImageid" resultType="java.util.HashMap">
-        select * from `comments` where imageid = #{imageid}
+        select commentid, commentuserid, commenttime, imageid, comment, userid, nickname from `comments`,`user`
+            where imageid = #{imageid} and comments.commentuserid = user.userid
     </select>
 
     <select id="getListCommentsByUserid" resultType="java.util.HashMap">
-        select * from `comments` where commentuserid = #{userid}
+        select commentid, commentuserid, commenttime, imageid, comment, userid, nickname from `comments`,`user`
+            where commentuserid = #{userid} and comments.commentuserid = user.userid
+    </select>
+
+    <select id="getListCommentsByExcludeBlacklist" resultType="java.util.HashMap">
+        select commentid, commentuserid, commenttime, imageid, comment, user.userid, nickname from comments, blacklist, user
+            where imageid = #{imageid} and comments.commentuserid = user.userid and commentuserid not in
+                (select blackuserid from blacklist where blacklist.userid = #{userid})
+    </select>
+
+    <select id="canInsertOne" resultType="java.util.HashMap">
+        select * from blacklist
+            where userid = (select userid from user where username = #{imageusername})
+                and blackuserid = #{commentuserid}
     </select>
 
     <insert id="insertOneComment">

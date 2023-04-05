@@ -14,7 +14,7 @@ CREATE TABLE `User` (
     `nickname` varchar(5) NOT NULL,
     `username` varchar(10) NOT NULL,
     `password` varchar(25) NOT NULL,
-    `status` int(1) NOT NULL DEFAULT 0,/*0管理员,1新用户，2答题通过用户*/
+    `status` int(1) NOT NULL DEFAULT 1,/*0管理员,1新用户，2答题通过用户*/
     PRIMARY KEY (`userid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
 
@@ -22,6 +22,7 @@ INSERT INTO `User`(userid, nickname, username, password, status) VALUES (1, '审
 INSERT INTO `User`(userid, nickname, username, password, status) VALUES (2, '浏览者', 'player-0', '123456', 1);
 INSERT INTO `User`(userid, nickname, username, password, status) VALUES (3, '关注着', 'player-1', '123456', 1);
 INSERT INTO `User`(userid, nickname, username, password, status) VALUES (4, '拉黑者', 'player-2', '123456', 1);
+INSERT INTO `User`(userid, nickname, username, password, status) VALUES (5, '上传者', 'player-3', '123456', 2);
 
 /*创建黑名单*/
 DROP TABLE IF EXISTS `Blacklist`;
@@ -61,7 +62,7 @@ CREATE TABLE `Images` (
 
 DROP TABLE IF EXISTS `Comments`;
 CREATE TABLE `Comments` (
-    `commentid` int(10) NOT NULL,
+    `commentid` int(10) NOT NULL AUTO_INCREMENT,
     `commentuserid` int(10) NOT NULL,
     `commenttime` datetime NOT NULL,
     `imageid` int(10) NOT NULL REFERENCES Images(`imageid`),

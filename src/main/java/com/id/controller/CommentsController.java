@@ -28,6 +28,16 @@ public class CommentsController {
         return commentsService.getListCommentsByUserid(userid);
     }
 
+    @RequestMapping("/getListCommentsByExcludeBlacklist")
+    public List<Map<String, Object>> getListCommentsByExcludeBlacklist(int imageid, int userid){
+        return commentsService.getListCommentsByExcludeBlacklist(imageid, userid);
+    }
+
+    @RequestMapping("/canInsertOne")
+    public int canInsertOne(int commentuserid, String imsgeusername){
+        return commentsService.canInsertOne(commentuserid, imsgeusername)?1:0;
+    }
+
     @RequestMapping("/insertOneComment")
     public boolean insertOneComment(int commentuserid, Date commenttime, int imageid, String comment){
         return commentsService.insertOneComment(commentuserid, commenttime, imageid, comment);

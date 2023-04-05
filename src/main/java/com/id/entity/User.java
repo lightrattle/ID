@@ -5,6 +5,8 @@ public class User {
     private String nickname;
     private String username;
     private String password;
+
+    private int status;
 //省略get、set、toString、构造方法
 
     public Integer getUserid() {
@@ -37,5 +39,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

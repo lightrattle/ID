@@ -33,11 +33,14 @@ public class UserController {
             model.addAttribute("msg","登录成功！ 欢迎你！"+user.getUsername());
             model.addAttribute("loginUser", username);
             model.addAttribute("userid", user.getUserid());
+            model.addAttribute("status", user.getStatus());
             map.put("msg","登录成功！ 欢迎你！"+user.getUsername());
             map.put("loginUser", username);
             map.put("userid", user.getUserid());
+            map.put("status", user.getStatus());
             session.setAttribute("loginUser", username);
             session.setAttribute("userid",user.getUserid());
+            session.setAttribute("status", user.getStatus());
             return map;
         }else{
             model.addAttribute("msg", "登录失败！用户名或密码错误！");

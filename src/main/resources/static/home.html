@@ -129,8 +129,6 @@
             });
         });
 
-
-
         $.ajax({
             url: "classify/getListClassify",
             type: "post",
@@ -150,37 +148,124 @@
             error: function(error){}
         });
 
+        getAll();
         //访问图片元素获取链接
-        $.ajax({
-            url: "images/getImagesListAll",
-            type: "post",
-            data: {},
-            dataType: "json",
-            async: false,
-            success: function(data){
-                var selectedObj = $("#imageslist");
-                if(data.length === 0){
-                    selectedObj.append("该模块暂无图片！");
+        function getAll() {
+            $.ajax({
+                url: "images/getImagesListAll",
+                type: "post",
+                data: {},
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    var selectedObj = $("#imageslist");
+                    if (data.length === 0) {
+                        selectedObj.append("该模块暂无图片！");
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                            "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                            "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                            "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
+                            "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
+                            "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                            "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                            "</div>");
+                    }
+                },
+                error: function (error) {
                 }
-                for(var i = 0;i < data.length; i++){
-                    selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
-                        "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
-                        "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
-                        "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/>" +
-                        "<div class='comment' style='width: 100%;height: 100px;background-color: #CCC;border: 1px solid #000'>评论区</div>" +
-                        "</div>");
-                }
-            },
-            error: function(error){}
+            });
+        }
+        //为加入的图片元素绑定评论显示事件
+        $(document).on('click', '.showcomment', function(){
+             var pthis = $(this);
+            if(pthis.html() === "评论区") {
+                var imageid = pthis.parents().attr("id").split("_")
+                    [pthis.parents().attr("id").split("_").length - 1];
+                //TODO 加入评论内容
+                $.ajax({
+                    url: "comments/getListCommentsByExcludeBlacklist",
+                    type: "post",
+                    data: {
+                        imageid: imageid,
+                        userid: localStorage.getItem("userid")
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
+                                data[i].comment +
+                                "</textarea><br>");
+                        }
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+            else{
+                pthis.html("评论区");
+            }
         });
-        // 加入图片元素
 
-            //为加入的图片元素绑定事件
-        $(document).on('click', '.comment', function(){
-            pthis = $(this);
-            var imageid = pthis.parents().attr("id").split("_")
-                [pthis.parents().attr("id").split("_").length - 1];
-            //TODO 加入评论内容以及评论框。
+        //提交评论事件
+        function canComment(commentuserid, imageusername){
+            var res = false;
+            $.ajax({
+                url: "comments/canInsertOne",
+                type: "post",
+                data: {
+                    commentuserid : commentuserid,
+                    imageusername: imageusername
+                },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    if(data > 0) res = true;
+                },
+                error: function (error) {
+                }
+            });
+            return res;
+        }
+        $(document).on('click', '.submitcomment', function (){
+            var pthis = $(this);
+            if(pthis.prev().val() !== "" && localStorage.getItem("status") === "2"
+            && (canComment(localStorage.getItem("userid"), pthis.parents().find(".un").val()))){
+                $.ajax({
+                    url: "comments/insertOneComment",
+                    type: "post",
+                    data: {
+                        commentuserid : localStorage.getItem("userid"),
+                        imageid: pthis.parents().attr("id").split("_")
+                            [pthis.parents().attr("id").split("_").length - 1],
+                        comment: pthis.prev().val()
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        alert("评论成功！");
+                    },
+                    error: function (error) {
+                    }
+                });
+            }
+            else{}
+        });
+
+        //点击发布者进入发布者的页面（展示其发布的内容）
+        $(document).on('click', '.un', function(){
+            var pthis = $(this);
+            var imageid = pthis.parents().attr("id").split("_")[pthis.parents().attr("id").split("_").length - 1];
+            var uptime = pthis.parents().find(".ut").val();
+            var imagesrc = pthis.parents().find(".ig").attr("src");
+            var imageusername = pthis.attr("value");
+            localStorage.setItem("nowimageusername", imageusername);
+            localStorage.setItem("nowimageid", imageid);
+            localStorage.setItem("nowuptime", uptime);
+            localStorage.setItem("nowimagesrc", imagesrc);
+            location.href = "./iFrame/player.html";
         });
     });
 </script>

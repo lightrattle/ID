@@ -25,6 +25,19 @@ public class CommentsService implements CommentsServiceImpl {
     }
 
     @Override
+    public List<Map<String, Object>> getListCommentsByExcludeBlacklist(int imageid, int userid) {
+        return commentsMapper.getListCommentsByExcludeBlacklist(imageid, userid);
+    }
+
+    @Override
+    public boolean canInsertOne(int commentuserid, String imageusername) {
+        if(commentsMapper.canInsertOne(commentuserid, imageusername) != null){
+            return false;
+        }
+        else return true;
+    }
+
+    @Override
     public boolean insertOneComment(int commentuserid, Date commenttime, int imageid, String comment) {
         return commentsMapper.insertOneComment(commentuserid, commenttime, imageid, comment);
     }
