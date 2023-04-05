@@ -3,6 +3,7 @@ package com.id.service;
 import com.id.entity.User;
 import com.id.mapper.UserMapper;
 import com.id.service.impl.UserServiceImpl;
+import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,5 +20,10 @@ public class UserService implements UserServiceImpl {
     @Override
     public boolean createUser (String nickname, String username, String password){
         return userMapper.createUser(nickname, username, password);
+    }
+
+    @Override
+    public int usernametouserid(String username) {
+        return userMapper.usernametouserid(username);
     }
 }

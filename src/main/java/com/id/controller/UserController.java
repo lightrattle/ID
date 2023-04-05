@@ -74,4 +74,9 @@ public class UserController {
                 "location.href='/login.html';" +
                 "</script>";
     }
+
+    @RequestMapping("/usernametouserid")
+    public int usernametouserid(String username){
+        return userService.usernametouserid(username);
+    }
 }
