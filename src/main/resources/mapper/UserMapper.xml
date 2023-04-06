@@ -17,4 +17,8 @@
         update `user` set
             status = 2 where userid = #{userid}
     </update>
+
+    <select id="getNicknameByUserid" resultType="String">
+        select nickname from user where userid = #{userid}
+    </select>
 </mapper>

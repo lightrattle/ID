@@ -23,4 +23,8 @@ public interface ImagesMapper {
 
     public boolean updatestatus(int imageid, String classifyname);
 
+    public int getUseridByImageid(int imageid);
+
+    public Date getUptimeByImageid(int imageid);
+
 }

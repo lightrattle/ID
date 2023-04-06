@@ -14,4 +14,6 @@ public interface UserMapper {
     int usernametouserid(String username);
 
     boolean setstatus(int userid);
+
+    String getNicknameByUserid(int userid);
 }

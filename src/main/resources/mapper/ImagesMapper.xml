@@ -47,4 +47,8 @@
             classifyid = (select classifyid from classify where classifyname = #{classifyname})
             where imageid = #{imageid};
     </update>
+
+    <select id="getUseridByImageid" resultType="int">
+        select userid from images where imageid = #{imageid}
+    </select>
 </mapper>

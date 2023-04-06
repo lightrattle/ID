@@ -1,6 +1,8 @@
 package com.id.service;
 
 import com.id.mapper.CommentsMapper;
+import com.id.mapper.ImagesMapper;
+import com.id.mapper.NoticesMapper;
 import com.id.service.impl.CommentsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,10 @@ import java.util.Map;
 public class CommentsService implements CommentsServiceImpl {
     @Autowired
     CommentsMapper commentsMapper;
+    @Autowired
+    NoticesMapper noticesMapper;
+    @Autowired
+    ImagesMapper imagesMapper;
 
     @Override
     public List<Map<String, Object>> getListCommentsByImageid(int imageid) {
@@ -39,6 +45,10 @@ public class CommentsService implements CommentsServiceImpl {
 
     @Override
     public boolean insertOneComment(int commentuserid, Date commenttime, int imageid, String comment) {
+        //get userid
+        int userid = imagesMapper.getUseridByImageid(imageid);
+        String notice = "有与你相关新的评论 from时间：" + commenttime + "_" + imageid;
+        noticesMapper.insertOneNotice(userid, commenttime, notice);
         return commentsMapper.insertOneComment(commentuserid, commenttime, imageid, comment);
     }
 

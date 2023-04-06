@@ -17,4 +17,6 @@ public interface AttentionMapper {
 
     public boolean deleteOneAttention(int userid, String nowimageusername);
 
+    public List<Map<String, Object>> getUseridByAttentionuserid(int attentionuserid);
+
 }

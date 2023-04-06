@@ -25,4 +25,8 @@
         delete from `attention` where userid = #{userid} and
             attentionuserid = (select userid from user where username = #{nowimageusername})
     </delete>
+
+    <select id="getUseridByAttentionuserid" resultType="java.util.HashMap">
+        select userid from attention where attentionuserid = #{attentionuserid}
+    </select>
 </mapper>
