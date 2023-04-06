@@ -74,4 +74,23 @@ public class ImagesController {
         return imagesService.updatestatus(imageid, classifyname);
     }
 
+    @RequestMapping("/getZanByImageid")
+    public int getZanByImageid(int imageid){
+        return imagesService.getZanByImageid(imageid);
+    }
+
+    @RequestMapping("/getCaiByImageid")
+    public int getCaiByImageid(int imageid){
+        return imagesService.getCaiByImageid(imageid);
+    }
+
+    @RequestMapping("/setZanByImageid")
+    public boolean setZanByImageid(int imageid){
+        return imagesService.setZanByImageid(imageid);
+    }
+
+    @RequestMapping("/setCaiByImageid")
+    public boolean setCaiByImageid(int imageid){
+        return imagesService.setCaiByImageid(imageid);
+    }
 }

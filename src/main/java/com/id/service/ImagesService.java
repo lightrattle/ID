@@ -73,4 +73,32 @@ public class ImagesService implements ImagesServiceImpl {
         }
         return imagesMapper.updatestatus(imageid, classifyname);
     }
+
+    @Override
+    public int getZanByImageid(int imageid) {
+        return imagesMapper.getZanByImageid(imageid);
+    }
+
+    @Override
+    public boolean setZanByImageid(int imageid) {
+        Date commenttime = new Date();
+        int userid = imagesMapper.getUseridByImageid(imageid);
+        String notice = "你的图片刚被赞了 from时间:"+ commenttime + "_" + imageid;
+        noticesMapper.insertOneNotice(userid, commenttime, notice);
+        return imagesMapper.setZanByImageid(imageid);
+    }
+
+    @Override
+    public int getCaiByImageid(int imageid) {
+        return imagesMapper.getCaiByImageid(imageid);
+    }
+
+    @Override
+    public boolean setCaiByImageid(int imageid) {
+        Date commenttime = new Date();
+        int userid = imagesMapper.getUseridByImageid(imageid);
+        String notice = "你的图片刚被踩了 from时间:"+ commenttime + "_" + imageid;
+        noticesMapper.insertOneNotice(userid, commenttime, notice);
+        return imagesMapper.setCaiByImageid(imageid);
+    }
 }

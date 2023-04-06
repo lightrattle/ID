@@ -10,7 +10,8 @@ public class Images {
     private int classifyid;
     private Date uptime;
     private String image;
-
+    private int zan;
+    private int cai;
     private int status;
 
     public int getImageid() {
@@ -59,5 +60,21 @@ public class Images {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getZan() {
+        return zan;
+    }
+
+    public void setZan(int zan) {
+        this.zan = zan;
+    }
+
+    public int getCai() {
+        return cai;
+    }
+
+    public void setCai(int cai) {
+        this.cai = cai;
     }
 }

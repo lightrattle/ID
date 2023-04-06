@@ -56,6 +56,8 @@ CREATE TABLE `Images` (
     `classifyid` int(10) NOT NULL REFERENCES Classify(`classifyid`),
     `uptime` datetime NOT NULL,
     `image` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+    `zan` int(10) NULL DEFAULT 0,
+    `cai` int(10) NULL DEFAULT 0,
     `status` int(1) NOT NULL NULL DEFAULT 0,
     PRIMARY KEY (`imageid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;

@@ -24,4 +24,12 @@ public interface ImagesServiceImpl {
 
     public boolean updatestatus(int imageid, String classifyname);
 
+    public int getZanByImageid(int imageid);
+
+    public boolean setZanByImageid(int imageid);
+
+    public int getCaiByImageid(int imageid);
+
+    public boolean setCaiByImageid(int imageid);
+
 }

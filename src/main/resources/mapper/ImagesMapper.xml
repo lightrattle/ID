@@ -51,4 +51,24 @@
     <select id="getUseridByImageid" resultType="int">
         select userid from images where imageid = #{imageid}
     </select>
+
+    <select id="getZanByImageid" resultType="int">
+        select zan from images where imageid = #{imageid}
+    </select>
+
+    <select id="getCaiByImageid" resultType="int">
+        select cai from images where imageid = #{imageid}
+    </select>
+
+    <update id="setZanByImageid">
+        update `images` set
+            zan = images.zan + 1
+                where imageid = #{imageid}
+    </update>
+
+    <update id="setCaiByImageid">
+        update `images` set
+            cai = images.cai + 1
+        where imageid = #{imageid}
+    </update>
 </mapper>

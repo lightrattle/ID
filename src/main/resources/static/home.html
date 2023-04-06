@@ -286,6 +286,10 @@
                         selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
                             "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
                             "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                            "<input class='zan' type='number' readonly value='" +data[i].zan + "'>" +
+                            "<input type='button' class='ui-button zan' value='赞'>" +
+                            "<input class='cai' type='number' readonly value='" +data[i].cai + "'>" +
+                            "<input type='button' class='ui-button cai' value='踩'><br>" +
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                             "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
                             "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
@@ -319,6 +323,10 @@
                             selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
                                 "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
                                 "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
+                                "<input class='zan' type='number' readonly value='" +data[i].zan + "'>" +
+                                "<input type='button' class='ui-button zan' value='赞'>" +
+                                "<input class='cai' type='number' readonly value='" +data[i].cai + "'>" +
+                                "<input type='button' class='ui-button cai' value='踩'><br>" +
                                 "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                                 "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
                                 "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
@@ -331,6 +339,70 @@
                 });
             });
         }
+
+        $(document).on('click', '.zan', function(){
+            var pthis = $(this);
+            var imageid = pthis.parent().attr("id").split("_")[1];
+            $.ajax({
+                url: "images/setZanByImageid",
+                type: "post",
+                data: {
+                    imageid: imageid
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    var nowzan = 0;
+                    $.ajax({
+                        url: "images/getZanByImageid",
+                        type: "post",
+                        data: {
+                            imageid: imageid
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function(data){
+                            nowzan = Number(data);
+                        },
+                        error: function(error){}
+                    });
+                    pthis.parent().find(".zan").val(nowzan);
+                },
+                error: function(error){}
+            });
+        });
+
+        $(document).on('click', '.cai', function(){
+            var pthis = $(this);
+            var imageid = pthis.parent().attr("id").split("_")[1];
+            $.ajax({
+                url: "images/setCaiByImageid",
+                type: "post",
+                data: {
+                    imageid: imageid
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    var nowcai = 0;
+                    $.ajax({
+                        url: "images/getCaiByImageid",
+                        type: "post",
+                        data: {
+                            imageid: imageid
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function(data){
+                            nowcai = Number(data);
+                        },
+                        error: function(error){}
+                    });
+                    pthis.parent().find(".cai").val(nowcai);
+                },
+                error: function(error){}
+            });
+        });
 
         $(document).on('click', '#shenhe', function() {
             $("#imageslist").empty();

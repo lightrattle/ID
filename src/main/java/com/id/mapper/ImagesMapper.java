@@ -27,4 +27,12 @@ public interface ImagesMapper {
 
     public Date getUptimeByImageid(int imageid);
 
+    public int getZanByImageid(int imageid);
+
+    public boolean setZanByImageid(int imageid);
+
+    public int getCaiByImageid(int imageid);
+
+    public boolean setCaiByImageid(int imageid);
+
 }
