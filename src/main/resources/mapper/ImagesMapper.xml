@@ -2,33 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.id.mapper.ImagesMapper">
     <select id="getImagesListAll" resultType="java.util.HashMap">
-        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
         where images.classifyid = classify.classifyid and images.userid = user.userid and images.status = 1
         order by uptime desc
     </select>
 
     <select id="getImagesListByUserid" resultType="java.util.HashMap">
-        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
             where images.classifyid = classify.classifyid and images.userid = #{userid}
               and images.userid = user.userid and images.status = 1
         order by uptime desc
     </select>
 
     <select id="getImagesListByClassifyname" resultType="java.util.HashMap">
-        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
             where images.classifyid = classify.classifyid and classify.classifyname = #{classifyname}
               and images.userid = user.userid and images.status = 1
         order by uptime desc
     </select>
 
+    <select id="getImagesListByClassifynameAndZan" resultType="java.util.HashMap">
+        select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
+        where images.classifyid = classify.classifyid and classify.classifyname = #{classifyname}
+          and images.userid = user.userid and images.status = 1
+        order by zan desc
+    </select>
+
     <select id="getImagesListByNotshenhe" resultType="java.util.HashMap">
-        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
         where images.classifyid = classify.classifyid and images.userid = user.userid and images.status = 0
         order by uptime desc
     </select>
 
     <select id="getOneImage" resultType="java.util.HashMap">
-        select imageid, username, images.classifyid, classifyname, uptime, image from images, classify, user
+        select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
         where images.classifyid = classify.classifyid and images.imageid = #{imageid} and images.userid = user.userid
     </select>
 

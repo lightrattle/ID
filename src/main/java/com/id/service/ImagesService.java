@@ -39,6 +39,11 @@ public class ImagesService implements ImagesServiceImpl {
     }
 
     @Override
+    public List<Map<String, Object>> getImagesListByClassifynameAndZan(String classifyname) {
+        return imagesMapper.getImagesListByClassifynameAndZan(classifyname);
+    }
+
+    @Override
     public List<Map<String, Object>> getImagesListByNotshenhe() {
         return imagesMapper.getImagesListByNotshenhe();
     }

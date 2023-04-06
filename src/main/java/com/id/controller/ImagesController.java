@@ -40,6 +40,11 @@ public class ImagesController {
         return imagesService.getImagesListByClassifyname(classifyname);
     }
 
+    @RequestMapping("/getImagesListByClassifynameAndZan")
+    public  List<Map<String, Object>> getImagesListByClassifynameAndZan(String classifyname){
+        return imagesService.getImagesListByClassifynameAndZan(classifyname);
+    }
+
     @RequestMapping("/getImagesListByNotshenhe")
     public List<Map<String, Object>> getImagesListByNotshenhe(){
         return imagesService.getImagesListByNotshenhe();

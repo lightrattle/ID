@@ -13,6 +13,7 @@ public interface ImagesMapper {
 
     public List<Map<String, Object>> getImagesListByClassifyname(String classifyname);
 
+    public List<Map<String, Object>> getImagesListByClassifynameAndZan(String classifyname);
     public List<Map<String, Object>> getImagesListByNotshenhe();
 
     public List<Map<String, Object>> getOneImage(int imageid);
