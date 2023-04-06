@@ -188,8 +188,14 @@
                         dataType: "json",
                         async: false,
                         success: function (data) {
-                            $("#attention").val("取消关注");
-                            alert("已关注！");
+                            if(data){
+                                $("#attention").val("取消关注");
+                                alert("已关注！");
+                            }
+                            else{
+                                $("#attention").val("关注");
+                                alert("关注失败！");
+                            }
                         },
                         error: function (error) {
                         }

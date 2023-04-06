@@ -27,6 +27,8 @@
                     ;float: left" value="上传" id="upload">
                 <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
                     ;float: left" value="全部" id="classify_-1">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="通知" id="notice">
             </div>
             <br>
             <div id="imageslist" style="width: 100%;height: auto;text-align: center">
@@ -468,6 +470,155 @@
             localStorage.setItem("nowuptime", uptime);
             localStorage.setItem("nowimagesrc", imagesrc);
             location.href = "./iFrame/player.html";
+        });
+
+        //通知栏
+        var allnotice;
+        var noticesNotread;
+        var noticesReaded;
+        $(document).on('click', '#notice', function(){
+            $("#imageslist").empty();
+            $("#imageslist").append("<input type='button' class='ui-button' style='text-align: center;" +
+                "background-color: #cccccc' " +
+                "value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='未读消息' id='notread'><br>");
+            $.ajax({
+                url: "notices/getNoticeListByUseridAndNotRead",
+                type: "post",
+                data: {
+                    userid: localStorage.getItem("userid")
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    noticesNotread = data;
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+            $.ajax({
+                url: "notices/getNoticeListByUseridAndReaded",
+                type: "post",
+                data: {
+                    userid: localStorage.getItem("userid")
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    noticesReaded = data;
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            });
+            allnotice = noticesNotread + noticesReaded;
+            for(var i=0; i<allnotice.length; i++){
+                $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                    "<input type='button' class='ui-button sure' value='标记已读'>" +
+                    "<input type='button' class='ui-button delete' value='删除'>" +
+                    "↓<br><textarea " +
+                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+            }
+        });
+        $(document).on('click', '#allnotice', function(){
+            $("#imageslist").empty();
+            $("#imageslist").append("" +
+                "<input type='button' class='ui-button' style='text-align: center;background-color: #cccccc' " +
+                "value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='未读消息' id='notread'><br>");
+            for(var i=0; i<allnotice.length; i++){
+                if(Number(allnotice[i].status) === 0){
+                    $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                        "<input type='button' class='ui-button sure' value='标记已读'>" +
+                        "↓<br><textarea " +
+                        "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+                }
+                else{
+                    $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                        "<input type='button' class='ui-button delete' value='删除'>" +
+                        "↓<br><textarea " +
+                        "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+                }
+            }
+        });
+        $(document).on('click', '#readed', function(){
+            $("#imageslist").empty();
+            $("#imageslist").append("" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' style='text-align: center;background-color: #cccccc' " +
+                "value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='未读消息' id='notread'><br>");
+            for(var i=0; i<allnotice.length; i++){
+                $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                    "<input type='button' class='ui-button delete' value='删除'>" +
+                    "↓<br><textarea " +
+                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+            }
+        });
+        $(document).on('click', '#notread', function(){
+            $("#imageslist").empty();
+            $("#imageslist").append("" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' style='text-align: center' " +
+                "value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' style='text-align: center;background-color: #cccccc' " +
+                "value='未读消息' id='notread'><br>");
+            for(var i=0; i<allnotice.length; i++){
+                $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                    "<input type='button' class='ui-button sure' value='标记已读'>" +
+                    "↓<br><textarea " +
+                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+            }
+        });
+
+        $(".sure").click(function(){
+            var pthis = $(this);
+            var noticeid = pthis.parent().find("textarea").attr("id").split("_")
+                [pthis.parent().find("textarea").attr("id").split("_") - 1];
+            $.ajax({
+                url: "notices/updateStatus",
+                type: "post",
+                data: {
+                    userid: localStorage.getItem("userid"),
+                    noticeid: noticeid
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    pthis.parent().remove();
+                },
+                error: function(error){console.log(error)}
+            });
+        });
+
+        $(".delete").click(function(){
+            var pthis = $(this);
+            var noticeid = pthis.parent().find("textarea").attr("id").split("_")
+                [pthis.parent().find("textarea").attr("id").split("_") - 1];
+            $.ajax({
+                url: "notices/deleteOneNotice",
+                type: "post",
+                data: {
+                    userid: localStorage.getItem("userid"),
+                    noticeid: noticeid
+                },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    pthis.parent().remove();
+                },
+                error: function(error){console.log(error)}
+            });
         });
     });
 </script>

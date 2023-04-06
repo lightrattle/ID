@@ -25,7 +25,8 @@ public class AttentionService implements AttentionServiceImpl {
 
     @Override
     public boolean insertOneAttention(int userid, String nowimageusername) {
-        return attentionMapper.insertOneAttention(userid, nowimageusername);
+        if(attentionMapper.canInsert(userid, nowimageusername) != null) return false;
+        else return attentionMapper.insertOneAttention(userid, nowimageusername);
     }
 
     @Override

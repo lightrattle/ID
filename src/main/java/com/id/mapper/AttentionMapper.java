@@ -11,6 +11,8 @@ public interface AttentionMapper {
 
     public Map<String, Object> judgeAttention(int userid, String nowimageusername);
 
+    public Map<String, Object> canInsert(int userid, String nowimageusername);
+
     public boolean insertOneAttention(int userid, String nowimageusername);
 
     public boolean deleteOneAttention(int userid, String nowimageusername);

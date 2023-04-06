@@ -12,6 +12,10 @@
             and attentionuserid = (select userid from user where user.username = #{nowimageusername})
     </select>
 
+    <select id="canInsert" resultType="java.util.HashMap">
+        select * from blacklist where userid = #{userid} and blackuserid = (select userid from user where username = #{nowimageusername})
+    </select>
+
     <insert id="insertOneAttention">
         insert into `attention`(userid, attentionuserid) VALUES
             (#{userid}, (select userid from user where username = #{nowimageusername}))
