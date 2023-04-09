@@ -5,7 +5,7 @@
         select * from `user` where username = #{username} and password = #{password}
     </select>
 
-    <select id="usernametouserid" resultType="int">
+    <select id="usernametouserid" resultType="Integer">
         select userid from user where username = #{username}
     </select>
 

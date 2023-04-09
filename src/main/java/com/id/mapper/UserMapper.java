@@ -11,7 +11,7 @@ public interface UserMapper {
     User loginUser (String username, String password);
     boolean createUser (String nickname,String username,String password);
 
-    int usernametouserid(String username);
+    Integer usernametouserid(String username);
 
     boolean setstatus(int userid);
 
