@@ -9,8 +9,10 @@ import java.util.Map;
 public interface BlacklistMapper {
     public List<Map<String, Object>> getListBlacklistByUserid(int userid);
 
-    public Map<String, Object> judgeAttention(int userid, String nowimageusername);
+    public Map<String, Object> judgeBlacklist(int userid, String nowimageusername);
     public boolean insertOneBlacklist(int userid, String nowimageusername);
+
+    public boolean deleteFromAttention(int userid, String nowimageusername);
 
     public boolean deleteOneBlacklist(int userid, String nowimageusername);
 }

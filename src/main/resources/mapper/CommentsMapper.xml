@@ -12,9 +12,9 @@
     </select>
 
     <select id="getListCommentsByExcludeBlacklist" resultType="java.util.HashMap">
-        select commentid, commentuserid, commenttime, imageid, comment, user.userid, nickname from comments, blacklist, user
-            where imageid = #{imageid} and comments.commentuserid = user.userid and commentuserid not in
-                (select blackuserid from blacklist where blacklist.userid = #{userid})
+        select * from (select commentid, commentuserid, commenttime, imageid, comments.comment, user.userid, nickname from comments, user
+            where comments.imageid = #{imageid} and comments.commentuserid = user.userid) as a where a.commentuserid not in
+                (select blackuserid from blacklist where blacklist.userid = #{userid});
     </select>
 
     <select id="canInsertOne" resultType="java.util.HashMap">

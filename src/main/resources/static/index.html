@@ -8,23 +8,19 @@
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.theme.min.css">
-    <link rel = "stylesheet" href = "./css/content.css">
     <script src="./jQueryUI-1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
 <div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
-    <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
-        <input type="text" style="float: left;font-size: 36px" id="name" readonly value="游客">
-        <input type="button" class="ui-button" style="float: right;font-size: 36px" id="login" value="登录">
+    <div id="header" style="height: 6%;width: 100%;position: fixed" class="initial">
+        <input type="text" id="name" readonly value="游客">
+        <input type="button" class="ui-button" id="login" value="登录">
     </div>
-    <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
-        <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
-        text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
-            <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
-        text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
+    <div id="content" style="height: 80%;width: 100%;top: 10%;position: relative;overflow-y: scroll" class="initial">
+        <div style="position: relative;text-align: center;vertical-align: center;height: 100%;width: 100%">
+            <div style="position: relative;text-align: center;vertical-align: center;height: 100%;width: 100%">
                 <div id="list" style="width: 100%;height: 5%;position: fixed;">
-                    <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
-                    ;float: left" value="全部" id="classify_-1">
+                    <input type="button" class="ui-button" value="全部" id="classify_-1">
                 </div>
                 <br>
                 <div id="imageslist" style="width: 100%;height: auto;text-align: center">
@@ -37,6 +33,7 @@
 </body>
 <script>
     $(document).ready(function(){
+        var classifyList;
         $(document).on('click', '#login', function(event){
             location.replace("login.html");
         });
@@ -48,10 +45,10 @@
             dataType: "json",
             async: false,
             success: function(data){
+                classifyList = data;
                 var selectedObj = $("#list");
                 for(var i = 0; i < data.length; i++){
-                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 13%;" +
-                        "text-align: center;float: left' value='" + data[i].classifyname + "' id='classify_" +
+                    selectedObj.append("<input  type='button' class='ui-button' value='" + data[i].classifyname + "' id='classify_" +
                         data[i].classifyid + "'>");
                     $("#uploadclassify").append("<option value='" + data[i].classifyid + "'>" +
                         data[i].classifyname + "</option>");
@@ -70,7 +67,7 @@
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    var selectedObj = $("#imageslist");
+                    var selectedObj = $("#imageslist").empty();
                     if (data.length === 0) {
                         selectedObj.append("该模块暂无图片！");
                     }
@@ -79,9 +76,7 @@
                             "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
                             "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
-                            "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
-                            "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                            "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                            "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区（点击展开）</div><br>" +
                             "</div>");
                     }
                 },
@@ -90,15 +85,20 @@
             });
         }
 
+        $("#classify_-1").on('click', function(){
+            getAll();
+        });
+
         //访问其他分类
         for(var i = 0; i < classifyList.length; i++){
             $(document).on('click', "#classify_" + classifyList[i].classifyid +"", function(){
+                var pthis = $(this);
                 $("#imageslist").empty();
                 $.ajax({
                     url: "images/getImagesListByClassifyname",
                     type: "post",
                     data: {
-                        classifyname: classifyList[i].classifyname
+                        classifyname: pthis.val()
                     },
                     dataType: "json",
                     async: false,
@@ -112,9 +112,7 @@
                                 "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
                                 "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
                                 "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
-                                "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
-                                "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                                "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                                "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区（点击展开）</div><br>" +
                                 "</div>");
                         }
                     },
@@ -128,8 +126,8 @@
         $(document).on('click', '.showcomment', function(){
             var pthis = $(this);
             if(pthis.html() === "评论区") {
-                var imageid = pthis.parents().attr("id").split("_")
-                    [pthis.parents().attr("id").split("_").length - 1];
+                var imageid = pthis.parent().attr("id").split("_")
+                    [pthis.parent().attr("id").split("_").length - 1];
                 //TODO 加入评论内容
                 $.ajax({
                     url: "comments/getListCommentsByExcludeBlacklist",
@@ -142,7 +140,7 @@
                     async: false,
                     success: function (data) {
                         for (var i = 0; i < data.length; i++) {
-                            pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
+                            pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;'>" +
                                 data[i].comment +
                                 "</textarea><br>");
                         }
@@ -154,20 +152,6 @@
             else{
                 pthis.html("评论区");
             }
-        });
-
-        //点击发布者进入发布者的页面（展示其发布的内容）
-        $(document).on('click', '.un', function(){
-            var pthis = $(this);
-            var imageid = pthis.parents().attr("id").split("_")[pthis.parents().attr("id").split("_").length - 1];
-            var uptime = pthis.parents().find(".ut").val();
-            var imagesrc = pthis.parents().find(".ig").attr("src");
-            var imageusername = pthis.attr("value");
-            localStorage.setItem("nowimageusername", imageusername);
-            localStorage.setItem("nowimageid", imageid);
-            localStorage.setItem("nowuptime", uptime);
-            localStorage.setItem("nowimagesrc", imagesrc);
-            location.href = "./iFrame/player.html";
         });
     });
 </script>

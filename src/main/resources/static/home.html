@@ -8,38 +8,32 @@
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.theme.min.css">
-    <link rel = "stylesheet" href = "./css/content.css">
     <script src="./jQueryUI-1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
 <div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
     <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
-        <input type="text" style="width: 18%;height: 100%;float:left;font-size: 36px;text-align: center;" id="name" readonly value="未登录">
-        <input type="button" class="ui-button" style="height:100%;float: right;font-size: 36px;text-align: center;" id="chooseTologgout" value="安全退出">
+        <input type="text" id="name" readonly value="未登录">
+        <input type="button" class="ui-button" id="chooseTologgout" value="安全退出">
     </div>
-    <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
-        <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
-        text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
+    <div id="content" style="height: 95%;width: 100%;top: 10%;position: relative;overflow-y: scroll" class="initial">
+        <div style="position: relative;text-align: center;vertical-align: center;height: 100%;width: 100%">
             <div id="list" style="width: 100%;height: 5%;position: fixed;">
-                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
-                    ;float: left" value="答题" id="answer">
-                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
-                    ;float: left" value="上传" id="upload">
-                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
-                    ;float: left" value="全部" id="classify_-1">
-                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
-                    ;float: left" value="通知" id="notice">
+                <input type="button" class="ui-button" value="答题" id="answer">
+                <input type="button" class="ui-button" value="上传" id="upload">
+                <input type="button" class="ui-button" value="全部" id="classify_-1">
+                <input type="button" class="ui-button" value="通知" id="notice">
             </div>
             <br>
-            <div id="imageslist" style="width: 100%;height: auto;text-align: center">
+            <div id="imageslist" style="position: relative;width: 100%;height: auto;text-align: center;">
 
             </div>
         </div>
     </div>
-    <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
+    <div id="footer" class="initial">
         <div id="uponeimage" style="position: fixed;width: 80%;height: 80%;top: 5%;left: 10%;border: 1px solid #000;z-index: 999;background-color: #FFF;display: none">
-            <label style="font-size: 36px;float: left" for="uploadclassify">图片所属分类:</label>
-            <select style="font-size: 36px" id="uploadclassify">
+            <label style="float: left" for="uploadclassify">图片所属分类:</label>
+            <select id="uploadclassify">
                 <option value=""></option>
             </select>
             <input type="file" id="uploadimage" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">
@@ -77,17 +71,17 @@
             </div>
             <div>
                 <span>4.穿越到异世界的第一件事是什么：</span>
-                <div><input type="radio" name="selectOne-3" value="0">(A)我不知道</div>
-                <div><input type="radio" name="selectOne-3" value="1">(B)我肯定不知道</div>
-                <div><input type="radio" name="selectOne-3" value="2">(C)我怎么可能知道</div>
-                <div><input type="radio" name="selectOne-3" value="3">(D)我知道才不对劲</div>
+                <div><input type="radio" name="selectOne-4" value="0">(A)我不知道</div>
+                <div><input type="radio" name="selectOne-4" value="1">(B)我肯定不知道</div>
+                <div><input type="radio" name="selectOne-4" value="2">(C)我怎么可能知道</div>
+                <div><input type="radio" name="selectOne-4" value="3">(D)我知道才不对劲</div>
             </div>
             <div>
                 <span>5.地球固态物理学有几种流派：</span>
-                <div><input type="radio" name="selectOne-3" value="0">(A)我不知道</div>
-                <div><input type="radio" name="selectOne-3" value="1">(B)我肯定不知道</div>
-                <div><input type="radio" name="selectOne-3" value="2">(C)我怎么可能知道</div>
-                <div><input type="radio" name="selectOne-3" value="3">(D)我知道才不对劲</div>
+                <div><input type="radio" name="selectOne-5" value="0">(A)我不知道</div>
+                <div><input type="radio" name="selectOne-5" value="1">(B)我肯定不知道</div>
+                <div><input type="radio" name="selectOne-5" value="2">(C)我怎么可能知道</div>
+                <div><input type="radio" name="selectOne-5" value="3">(D)我知道才不对劲</div>
             </div>
             <input id="sureanswer" type="button" class="ui-button" value="提交">
         </div>
@@ -132,46 +126,51 @@
             $("#uponeimage").hide();
         });
         $(document).on('click', '#sureupload', function(){
-            var timenow = new Date();
-            var formData = new FormData();
-            var userid = localStorage.getItem("userid");
-            var classifyid = $("#uploadclassify").val();
-            var imagestring;
-            formData.set("file", document.getElementById('uploadimage').files[0]);
-            $.ajax({
-                url: "images/insertOneImageFile",
-                type: "post",
-                data: formData,
-                async: false,
-                cache: false,
-                processData: false,   // 不处理发送的数据
-                contentType: false,   // 不设置Content-Type请求头
-                success:function (data) {
-                    $("#path").text(data);
-                    console.log(data);
-                },
-                error: function(error){
-                    imagestring = "";
-                    alert("上传图片出错！");
-                }
-            });
-            $.ajax({
-                url: "images/insertOneImage",
-                type: "post",
-                data: {
-                    userid: userid,
-                    classifyid: classifyid,
-                    uptime: timenow,
-                    image: $("#path").text()
-                },
-                async: false,
-                success:function (data) {
-                    alert("上传成功！等待管理员审核！");
-                    $("#showimage").attr("src", "");
-                    $("#path").text("");
-                    $("#uponeimage").hide();
-                }
-            });
+            if(localStorage.getItem("status") === '2'){
+                var timenow = new Date();
+                var formData = new FormData();
+                var userid = localStorage.getItem("userid");
+                var classifyid = $("#uploadclassify").val();
+                var imagestring;
+                formData.set("file", document.getElementById('uploadimage').files[0]);
+                $.ajax({
+                    url: "images/insertOneImageFile",
+                    type: "post",
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    processData: false,   // 不处理发送的数据
+                    contentType: false,   // 不设置Content-Type请求头
+                    success:function (data) {
+                        $("#path").text(data);
+                        console.log(data);
+                    },
+                    error: function(error){
+                        imagestring = "";
+                        alert("上传图片出错！");
+                    }
+                });
+                $.ajax({
+                    url: "images/insertOneImage",
+                    type: "post",
+                    data: {
+                        userid: userid,
+                        classifyid: classifyid,
+                        uptime: timenow,
+                        image: $("#path").text()
+                    },
+                    async: false,
+                    success:function (data) {
+                        alert("上传成功！等待管理员审核！");
+                        $("#showimage").attr("src", "");
+                        $("#path").text("");
+                        $("#uponeimage").hide();
+                    }
+                });
+            }
+            else{
+                alert("您没有权限上传图片！");
+            }
         });
 
         $(document).on('click', '#answer', function(){
@@ -182,7 +181,7 @@
         });
         $(document).on('click', '#sureanswer', function(){
             var pthis = $(this);
-            var select_1 = pthis.parents().find("input[name='selectOne-1']");
+            var select_1 = pthis.parent().find("input[name='selectOne-1']");
             var select_1_cho;
             for(var i=0; i<4; i++){
                 if(select_1[i].checked){
@@ -190,7 +189,7 @@
                     break;
                 }
             }
-            var select_2 = pthis.parents().find("input[name='selectOne-2']");
+            var select_2 = pthis.parent().find("input[name='selectOne-2']");
             var select_2_cho;
             for(var i=0; i<4; i++){
                 if(select_2[i].checked){
@@ -198,7 +197,7 @@
                     break;
                 }
             }
-            var select_3 = pthis.parents().find("input[name='selectOne-3']");
+            var select_3 = pthis.parent().find("input[name='selectOne-3']");
             var select_3_cho;
             for(var i=0; i<4; i++){
                 if(select_3[i].checked){
@@ -206,7 +205,7 @@
                     break;
                 }
             }
-            var select_4 = pthis.parents().find("input[name='selectOne-4']");
+            var select_4 = pthis.parent().find("input[name='selectOne-4']");
             var select_4_cho;
             for(var i=0; i<4; i++){
                 if(select_4[i].checked){
@@ -214,7 +213,7 @@
                     break;
                 }
             }
-            var select_5 = pthis.parents().find("input[name='selectOne-5']");
+            var select_5 = pthis.parent().find("input[name='selectOne-5']");
             var select_5_cho;
             for(var i=0; i<4; i++){
                 if(select_5[i].checked){
@@ -254,15 +253,13 @@
                 classifyList = data;
                 var selectedObj = $("#list");
                 for(var i = 0; i < data.length; i++){
-                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 13%;" +
-                        "text-align: center;float: left' value='" + data[i].classifyname + "' id='classify_" +
+                    selectedObj.append("<input  type='button' class='ui-button' value='" + data[i].classifyname + "' id='classify_" +
                         data[i].classifyid + "'>");
                     $("#uploadclassify").append("<option value='" + data[i].classifyid + "'>" +
                         data[i].classifyname + "</option>");
                 }
-                if(localStorage.getItem("status")!==null && localStorage.getItem("status") === 0){//登录账户为管理员
-                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 26%;" +
-                        "text-align: center;float: left' value='图片审核' id='shenhe'>");
+                if(localStorage.getItem("status")!==null && localStorage.getItem("status") === '0'){//登录账户为管理员
+                    selectedObj.append("<input  type='button' class='ui-button' value='图片审核' id='shenhe'>");
                 }
             },
             error: function(error){}
@@ -278,22 +275,22 @@
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    var selectedObj = $("#imageslist");
+                    var selectedObj = $("#imageslist").empty();
                     if (data.length === 0) {
                         selectedObj.append("该模块暂无图片！");
                     }
                     for (var i = 0; i < data.length; i++) {
-                        selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
-                            "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                        selectedObj.append("<div id='image_" + data[i].imageid + "'>" +
+                            "发布者:<input type='button' class='un' value='" + data[i].username + "'>" +
                             "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
                             "<input class='zan' type='number' readonly value='" +data[i].zan + "'>" +
-                            "<input type='button' class='ui-button zan' value='赞'>" +
+                            "<input type='button' class='ui-button zanbutton' value='赞'>" +
                             "<input class='cai' type='number' readonly value='" +data[i].cai + "'>" +
-                            "<input type='button' class='ui-button cai' value='踩'><br>" +
+                            "<input type='button' class='ui-button caibutton' value='踩'><br>" +
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                             "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
-                            "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                            "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                            "<textarea class='comment' style='width: 80%;height:100px;background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                            "<button type='button' class='submitcomment'>发表</button><br>" +
                             "</div>");
                     }
                 },
@@ -302,16 +299,22 @@
             });
         }
 
+        $(document).on('click', '#classify_-1', function(){
+           getAll();
+        });
+
         //访问其他分类
         for(var i = 0; i < classifyList.length; i++){
             $(document).on('click', "#classify_" + classifyList[i].classifyid +"", function(){
+                var pthis = $(this);
                 $("#imageslist").empty();
-                $("#imageslist").append("<input id='paihangbang' class='ui-button' style='float: right' type='button' value='排行榜'>");
+                $("#imageslist").append("<input id='paihangbang' class='ui-button' type='button' value='"
+                    + pthis.val() + " 排行榜'>");
                 $.ajax({
                     url: "images/getImagesListByClassifyname",
                     type: "post",
                     data: {
-                        classifyname: classifyList[i].classifyname
+                        classifyname: pthis.val()
                     },
                     dataType: "json",
                     async: false,
@@ -321,17 +324,17 @@
                             selectedObj.append("该模块暂无图片！");
                         }
                         for (var i = 0; i < data.length; i++) {
-                            selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
-                                "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                            selectedObj.append("<div id='image_" + data[i].imageid + "'>" +
+                                "发布者:<input type='button' class='un' value='" + data[i].username + "'>" +
                                 "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
                                 "<input class='zan' type='number' readonly value='" +data[i].zan + "'>" +
-                                "<input type='button' class='ui-button zan' value='赞'>" +
+                                "<input type='button' class='ui-button zanbutton' value='赞'>" +
                                 "<input class='cai' type='number' readonly value='" +data[i].cai + "'>" +
-                                "<input type='button' class='ui-button cai' value='踩'><br>" +
+                                "<input type='button' class='ui-button caibutton' value='踩'><br>" +
                                 "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                                 "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
-                                "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                                "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                                "<textarea class='comment' style='width: 80%;height:100px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                                "<button type='button' class='submitcomment'>发表</button><br>" +
                                 "</div>");
                         }
                     },
@@ -342,12 +345,13 @@
         }
 
         $(document).on('click', '#paihangbang', function(){
+            var pthis = $(this);
             $("#imageslist").empty();
             $.ajax({
                 url: "images/getImagesListByClassifynameAndZan",
                 type: "post",
                 data: {
-                    classifyname: classifyList[i].classifyname
+                    classifyname: pthis.val().split(" ")[0]
                 },
                 dataType: "json",
                 async: false,
@@ -357,17 +361,17 @@
                         selectedObj.append("该模块暂无图片！");
                     }
                     for (var i = 0; i < data.length; i++) {
-                        selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
-                            "发布者:<input class='un' disabled value='" + data[i].username + "'>" +
+                        selectedObj.append("<div id='image_" + data[i].imageid + "'>" +
+                            "发布者:<input type='button' class='un' value='" + data[i].username + "'>" +
                             "发布时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
                             "<input class='zan' type='number' readonly value='" +data[i].zan + "'>" +
-                            "<input type='button' class='ui-button zan' value='赞'>" +
+                            "<input type='button' class='ui-button zanbutton' value='赞'>" +
                             "<input class='cai' type='number' readonly value='" +data[i].cai + "'>" +
-                            "<input type='button' class='ui-button cai' value='踩'><br>" +
+                            "<input type='button' class='ui-button caibutton' value='踩'><br>" +
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                             "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
-                            "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                            "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
+                            "<textarea class='comment' style='width: 80%;height:100px;background-color: #FFF' placeholder='发表评论'></textarea><br>" +
+                            "<button type='button' class='submitcomment'>发表</button><br>" +
                             "</div>");
                     }
                 },
@@ -376,7 +380,7 @@
             });
         });
 
-        $(document).on('click', '.zan', function(){
+        $(document).on('click', '.zanbutton', function(){
             var pthis = $(this);
             var imageid = pthis.parent().attr("id").split("_")[1];
             $.ajax({
@@ -408,7 +412,7 @@
             });
         });
 
-        $(document).on('click', '.cai', function(){
+        $(document).on('click', '.caibutton', function(){
             var pthis = $(this);
             var imageid = pthis.parent().attr("id").split("_")[1];
             $.ajax({
@@ -454,9 +458,9 @@
                         selectedObj.append("暂无待审核图片！");
                     }
                     for (var i = 0; i < data.length; i++) {
-                        selectedObj.append("<div id='image_'" + data[i].imageid + ">" +
+                        selectedObj.append("<div id='image_" + data[i].imageid + "'>" +
                             "<input type='button' class='pass' value='通过'>" +
-                            "上传者:<input class='un' disabled value='" + data[i].username + "'>" +
+                            "上传者:<input type='button' class='un' value='" + data[i].username + "'>" +
                             "上传时间:<input class='ut' type='datetime' value='" + data[i].uptime + "' >" +
                             "所选分类:<input class='classify' type='text' value='" + data[i].classifyname + "'>" +
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
@@ -471,7 +475,7 @@
         $(document).on('click', '.pass', function(){
             var pthis=$(this);
             var imageid = pthis.parent().attr("id").split("_")[pthis.parent().attr("id").split("_").length - 1];
-            var classifyname = pthis.parent().find("classify").val();
+            var classifyname = pthis.parent().find(".classify").val();
             $.ajax({
                 url: "images/updatestatus",
                 type: "post",
@@ -493,8 +497,8 @@
         $(document).on('click', '.showcomment', function(){
              var pthis = $(this);
             if(pthis.html() === "评论区") {
-                var imageid = pthis.parents().attr("id").split("_")
-                    [pthis.parents().attr("id").split("_").length - 1];
+                var imageid = pthis.parent().attr("id").split("_")
+                    [pthis.parent().attr("id").split("_").length - 1];
                 //TODO 加入评论内容
                 $.ajax({
                     url: "comments/getListCommentsByExcludeBlacklist",
@@ -507,7 +511,7 @@
                     async: false,
                     success: function (data) {
                         for (var i = 0; i < data.length; i++) {
-                            pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
+                            pthis.append("<br>" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;'>" +
                                 data[i].comment +
                                 "</textarea><br>");
                         }
@@ -543,16 +547,18 @@
         }
         $(document).on('click', '.submitcomment', function (){
             var pthis = $(this);
-            if(pthis.prev().val() !== "" && localStorage.getItem("status") !== null && localStorage.getItem("status") === "2"
-                && (canComment(localStorage.getItem("userid"), pthis.parents().find(".un").val()))){
+            if(pthis.prev().prev().val() !== "" && localStorage.getItem("status") !== null && localStorage.getItem("status") === "2"
+                && (canComment(localStorage.getItem("userid"), pthis.parent().find(".un").val()))){
+                var commenttime = new Date();
                 $.ajax({
                     url: "comments/insertOneComment",
                     type: "post",
                     data: {
                         commentuserid : localStorage.getItem("userid"),
-                        imageid: pthis.parents().attr("id").split("_")
-                            [pthis.parents().attr("id").split("_").length - 1],
-                        comment: pthis.prev().val()
+                        imageid: pthis.parent().attr("id").split("_")
+                            [pthis.parent().attr("id").split("_").length - 1],
+                        commenttime: commenttime,
+                        comment: pthis.prev().prev().val()
                     },
                     dataType: "json",
                     async: false,
@@ -569,10 +575,14 @@
         //点击发布者进入发布者的页面（展示其发布的内容）
         $(document).on('click', '.un', function(){
             var pthis = $(this);
-            var imageid = pthis.parents().attr("id").split("_")[pthis.parents().attr("id").split("_").length - 1];
-            var uptime = pthis.parents().find(".ut").val();
-            var imagesrc = pthis.parents().find(".ig").attr("src");
+            var imageid = pthis.parent().attr("id").split("_")[pthis.parent().attr("id").split("_").length - 1];
+            var uptime = pthis.parent().find(".ut").val();
+            var imagesrc = pthis.parent().find(".ig").attr("src");
             var imageusername = pthis.attr("value");
+            localStorage.removeItem("nowimageusername");
+            localStorage.removeItem("nowimageid");
+            localStorage.removeItem("nowuptime");
+            localStorage.removeItem("nowimagesrc");
             localStorage.setItem("nowimageusername", imageusername);
             localStorage.setItem("nowimageid", imageid);
             localStorage.setItem("nowuptime", uptime);
@@ -623,76 +633,70 @@
                     console.log(error);
                 }
             });
-            allnotice = noticesNotread + noticesReaded;
+            allnotice = noticesNotread.concat();
+            allnotice = allnotice.concat(noticesReaded);
             for(var i=0; i<allnotice.length; i++){
-                $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                $("#imageslist").append("<div>" + allnotice[i].noticetime + ":" +
                     "<input type='button' class='ui-button sure' value='标记已读'>" +
                     "<input type='button' class='ui-button delete' value='删除'>" +
                     "↓<br><textarea " +
-                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea></div><br>");
             }
         });
+
         $(document).on('click', '#allnotice', function(){
             $("#imageslist").empty();
             $("#imageslist").append("" +
-                "<input type='button' class='ui-button' style='text-align: center;background-color: #cccccc' " +
-                "value='全部消息' id='allnotice'>" +
-                "<input type='button' class='ui-button' style='text-align: center' " +
-                "value='已读消息' id='readed'>" +
-                "<input type='button' class='ui-button' style='text-align: center' " +
-                "value='未读消息' id='notread'><br>");
+                "<input type='button' class='ui-button' value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' value='未读消息' id='notread'><br>");
             for(var i=0; i<allnotice.length; i++){
                 if(Number(allnotice[i].status) === 0){
-                    $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                    $("#imageslist").append("<div>" + allnotice[i].noticetime + ":" +
                         "<input type='button' class='ui-button sure' value='标记已读'>" +
-                        "↓<br><textarea " +
-                        "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
-                }
-                else{
-                    $("#imageslist").append("" + allnotice[i].noticetime + ":" +
                         "<input type='button' class='ui-button delete' value='删除'>" +
                         "↓<br><textarea " +
-                        "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+                        "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea></div><br>");
+                }
+                else{
+                    $("#imageslist").append("<div>" + allnotice[i].noticetime + ":" +
+                        "<input type='button' class='ui-button delete' value='删除'>" +
+                        "↓<br><textarea " +
+                        "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea></div><br>");
                 }
             }
         });
         $(document).on('click', '#readed', function(){
             $("#imageslist").empty();
             $("#imageslist").append("" +
-                "<input type='button' class='ui-button' style='text-align: center' " +
-                "value='全部消息' id='allnotice'>" +
-                "<input type='button' class='ui-button' style='text-align: center;background-color: #cccccc' " +
-                "value='已读消息' id='readed'>" +
-                "<input type='button' class='ui-button' style='text-align: center' " +
-                "value='未读消息' id='notread'><br>");
-            for(var i=0; i<allnotice.length; i++){
-                $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                "<input type='button' class='ui-button' value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' value='未读消息' id='notread'><br>");
+            for(var i=0; i<noticesReaded.length; i++){
+                $("#imageslist").append("<div>" + noticesReaded[i].noticetime + ":" +
                     "<input type='button' class='ui-button delete' value='删除'>" +
                     "↓<br><textarea " +
-                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+                    "id='notice_" + noticesReaded[i].noticeid + "'>" + noticesReaded[i].notice + "</textarea></div><br>");
             }
         });
         $(document).on('click', '#notread', function(){
             $("#imageslist").empty();
             $("#imageslist").append("" +
-                "<input type='button' class='ui-button' style='text-align: center' " +
-                "value='全部消息' id='allnotice'>" +
-                "<input type='button' class='ui-button' style='text-align: center' " +
-                "value='已读消息' id='readed'>" +
-                "<input type='button' class='ui-button' style='text-align: center;background-color: #cccccc' " +
-                "value='未读消息' id='notread'><br>");
-            for(var i=0; i<allnotice.length; i++){
-                $("#imageslist").append("" + allnotice[i].noticetime + ":" +
+                "<input type='button' class='ui-button' value='全部消息' id='allnotice'>" +
+                "<input type='button' class='ui-button' value='已读消息' id='readed'>" +
+                "<input type='button' class='ui-button' value='未读消息' id='notread'><br>");
+            for(var i=0; i<noticesNotread.length; i++){
+                $("#imageslist").append("<div>" + noticesNotread[i].noticetime + ":" +
                     "<input type='button' class='ui-button sure' value='标记已读'>" +
                     "↓<br><textarea " +
-                    "id='notice_" + allnotice[i].noticeid + "'>" + allnotice[i].notice + "</textarea>");
+                    "id='notice_" + noticesNotread[i].noticeid + "'>" + noticesNotread[i].notice + "</textarea></div><br>");
             }
         });
 
-        $(".sure").click(function(){
+        $(document).on('click', '.sure', function(){
             var pthis = $(this);
             var noticeid = pthis.parent().find("textarea").attr("id").split("_")
-                [pthis.parent().find("textarea").attr("id").split("_") - 1];
+                [pthis.parent().find("textarea").attr("id").split("_").length - 1];
             $.ajax({
                 url: "notices/updateStatus",
                 type: "post",
@@ -704,15 +708,45 @@
                 async: false,
                 success: function(data){
                     pthis.parent().remove();
+                    $.ajax({
+                        url: "notices/getNoticeListByUseridAndNotRead",
+                        type: "post",
+                        data: {
+                            userid: localStorage.getItem("userid")
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function(data){
+                            noticesNotread = data;
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+                    });
+                    $.ajax({
+                        url: "notices/getNoticeListByUseridAndReaded",
+                        type: "post",
+                        data: {
+                            userid: localStorage.getItem("userid")
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function(data){
+                            noticesReaded = data;
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+                    });
                 },
                 error: function(error){console.log(error)}
             });
         });
 
-        $(".delete").click(function(){
+        $(document).on('click', '.delete', function(){
             var pthis = $(this);
             var noticeid = pthis.parent().find("textarea").attr("id").split("_")
-                [pthis.parent().find("textarea").attr("id").split("_") - 1];
+                [pthis.parent().find("textarea").attr("id").split("_").length - 1];
             $.ajax({
                 url: "notices/deleteOneNotice",
                 type: "post",
@@ -724,6 +758,38 @@
                 async: false,
                 success: function(data){
                     pthis.parent().remove();
+                    $.ajax({
+                        url: "notices/getNoticeListByUseridAndNotRead",
+                        type: "post",
+                        data: {
+                            userid: localStorage.getItem("userid")
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function(data){
+                            noticesNotread = data;
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+                    });
+                    $.ajax({
+                        url: "notices/getNoticeListByUseridAndReaded",
+                        type: "post",
+                        data: {
+                            userid: localStorage.getItem("userid")
+                        },
+                        dataType: "json",
+                        async: false,
+                        success: function(data){
+                            noticesReaded = data;
+                        },
+                        error: function(error){
+                            console.log(error);
+                        }
+                    });
+                    allnotice = noticesNotread.concat();
+                    allnotice = allnotice.concat(noticesReaded);
                 },
                 error: function(error){console.log(error)}
             });

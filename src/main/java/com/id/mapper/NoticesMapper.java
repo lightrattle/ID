@@ -14,7 +14,7 @@ public interface NoticesMapper {
 
     public List<Map<String, Object>> getNoticeListByUseridAndReaded(int userid);
 
-    public boolean insertOneNotice(int userid, Date noticetime, String notice);
+    public boolean insertOneNotice(int userid, Date commenttime, String notice);
 
     public boolean updateStatus( int userid, int noticeid);
 

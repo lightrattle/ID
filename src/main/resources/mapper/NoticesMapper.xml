@@ -15,7 +15,7 @@
 
     <insert id="insertOneNotice">
         insert into notices (userid, noticetime, notice)
-        values (#{userid}, #{noticetime}, #{notice})
+        values (#{userid}, #{commenttime}, #{notice})
     </insert>
 
     <update id="updateStatus">

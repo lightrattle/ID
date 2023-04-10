@@ -20,12 +20,14 @@ public class BlacklistService implements BlacklistServiceImpl {
 
     @Override
     public int judgeBlacklist(int userid, String nowimageusername) {
-        return blacklistMapper.judgeAttention(userid, nowimageusername) !=null?0:1;
+        return blacklistMapper.judgeBlacklist(userid, nowimageusername) !=null?0:1;
     }
 
     @Override
     public boolean insertOneBlacklist(int userid, String nowimageusername) {
-        return blacklistMapper.insertOneBlacklist(userid, nowimageusername);
+        boolean res = blacklistMapper.insertOneBlacklist(userid, nowimageusername);
+        blacklistMapper.deleteFromAttention(userid, nowimageusername);
+        return res;
     }
 
     @Override

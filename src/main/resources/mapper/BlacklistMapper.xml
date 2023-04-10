@@ -15,9 +15,12 @@
     <insert id="insertOneBlacklist">
         insert into `blacklist`(userid, blackuserid) VALUES
             (#{userid}, (select userid from user where username = #{nowimageusername}));
+    </insert>
+
+    <delete id="deleteFromAttention">
         delete from attention where userid = #{userid}
             and attentionuserid = (select userid from user where username = #{nowimageusername})
-    </insert>
+    </delete>
 
     <delete id="deleteOneBlacklist">
         delete from `blacklist` where userid = #{userid} and

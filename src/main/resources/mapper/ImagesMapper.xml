@@ -34,6 +34,10 @@
         order by uptime desc
     </select>
 
+    <select id="getUptimeByImageid" resultType="java.util.Date">
+        select uptime from images where imageid = #{imageid}
+    </select>
+
     <select id="getOneImage" resultType="java.util.HashMap">
         select imageid, username, images.classifyid, classifyname, uptime, image, zan, cai from images, classify, user
         where images.classifyid = classify.classifyid and images.imageid = #{imageid} and images.userid = user.userid

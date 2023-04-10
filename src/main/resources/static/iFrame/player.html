@@ -8,13 +8,12 @@
     <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.min.css">
     <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.theme.min.css">
-    <link rel = "stylesheet" href = "../css/content.css">
     <script src="../jQueryUI-1.13.2/jquery-ui.min.js"></script>
 </head>
 <body>
-<button id="back" style="float: left;width: 20px;height: 30px;font-size: 26px">返回</button><br>
-<button id="attention" style="float: left;width: 90px;height: 30px;font-size: 26px">关注/取消关注</button>
-<button id="toblacklist" style="float: left;width: 90px;height: 30px;font-size: 26px">拉黑/取消拉黑</button><br>
+<button id="back">返回</button><br>
+<button id="attention">关注/取消关注</button>
+<button id="toblacklist">拉黑/取消拉黑</button><br>
 <div id="content" style="width: 100%;height: auto">
 
 </div>
@@ -22,7 +21,7 @@
 <script>
     $(document).ready(function(){
         $.ajax({
-            url: "user/usernametouserid",
+            url: "../user/usernametouserid",
             type: "post",
             data: {
                 username: localStorage.getItem("nowimageusername")
@@ -40,13 +39,13 @@
         contentObj.append("<div id='image_'" + localStorage.getItem("nowimageid") + ">" +
             "发布者:<input class='un' disabled value='" + localStorage.getItem("nowimageusername") + "'>" +
             "发布时间:<input class='ut' type='datetime' value='" + localStorage.getItem("nowuptime") + "' >" +
-            "<img class='ig' style='width: 70%;height: auto' src='" + localStorage.getItem("nowimagesrc") + "' alt='图片'/><br>" +
+            "<img class='ig' style='width: 70%;height: auto' src='../" + localStorage.getItem("nowimagesrc") + "' alt='图片'/><br>" +
             "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
             "<textarea id='comment' style='width: 80%;height:100px;font-size: 24px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
             "<button id='submitcomment' style='width: 80px;height: 30px;font-size: 24px'>发表</button><br>" +
             "</div>");
         $.ajax({
-            url: "comments/getListCommentsByExcludeBlacklist",
+            url: "../comments/getListCommentsByExcludeBlacklist",
             type: "post",
             data: {
                 imageid: localStorage.getItem("nowimageid"),
@@ -56,7 +55,7 @@
             async: false,
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    pthis.append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
+                    $(".showcomment").append("" + data[i].nickname + ":(" + data[i].commenttime + ")<br><textarea style='width: 80%;height: 60px;font-size: 20px;'>" +
                         data[i].comment +
                         "</textarea><br>");
                 }
@@ -69,7 +68,7 @@
         function canComment(commentuserid, imageusername){
             var res = false;
             $.ajax({
-                url: "comments/canInsertOne",
+                url: "../comments/canInsertOne",
                 type: "post",
                 data: {
                     commentuserid : commentuserid,
@@ -90,7 +89,7 @@
             if(pthis.prev().val() !== "" && localStorage.getItem("status") === "2"
                 && (canComment(localStorage.getItem("userid"), localStorage.getItem("nowimageusername")))){
                 $.ajax({
-                    url: "comments/insertOneComment",
+                    url: "../comments/insertOneComment",
                     type: "post",
                     data: {
                         commentuserid : localStorage.getItem("userid"),
@@ -118,15 +117,12 @@
             if(localStorage.getItem("status") !== null){
                 location.href = "../home.html";
             }
-            else{
-                location.href = "../index.html";
-            }
         });
 
         function judgeAttention(userid, nowimageusername){
             var res = false;
             $.ajax({
-                url: "attention/judgeAttention",
+                url: "../attention/judgeAttention",
                 type: "post",
                 data: {
                     userid : userid,
@@ -145,14 +141,18 @@
         if(localStorage.getItem("status") !== null){
             if(judgeAttention(localStorage.getItem("userid"), localStorage.getItem("nowimageusername"))){
                 $("#attention").val("关注");
+                $("#attention").html("关注");
             }
-            else $("#attention").val("取消关注");
+            else {
+                $("#attention").val("取消关注");
+                $("#attention").html("取消关注");
+            }
         }
 
         function judgeBlacklist(userid, nowimageusername){
             var res = false;
             $.ajax({
-                url: "blacklist/judgeBlacklist",
+                url: "../blacklist/judgeBlacklist",
                 type: "post",
                 data: {
                     userid : userid,
@@ -171,29 +171,35 @@
         if(localStorage.getItem("status") !== null){
             if(judgeBlacklist(localStorage.getItem("userid"), localStorage.getItem("nowimageusername"))){
                 $("#toblacklist").val("拉黑");
+                $("#toblacklist").html("拉黑");
             }
-            else $("#toblacklist").val("取消拉黑");
+            else {
+                $("#toblacklist").val("取消拉黑");
+                $("#toblacklist").html("取消拉黑");
+            }
         }
 
         $(document).on('click', '#attention', function(){
             if(localStorage.getItem("status") !== null){
                 if($(this).val() === "关注"){
                     $.ajax({
-                        url: "attention/insertOneAttention",
+                        url: "../attention/insertOneAttention",
                         type: "post",
                         data: {
-                            userid : userid,
-                            nowimageusername: nowimageusername
+                            userid : localStorage.getItem("userid"),
+                            nowimageusername: localStorage.getItem("nowimageusername")
                         },
                         dataType: "json",
                         async: false,
                         success: function (data) {
                             if(data){
                                 $("#attention").val("取消关注");
+                                $("#attention").html("取消关注");
                                 alert("已关注！");
                             }
                             else{
                                 $("#attention").val("关注");
+                                $("#attention").html("关注");
                                 alert("关注失败！");
                             }
                         },
@@ -203,16 +209,17 @@
                 }
                 else if($(this).val() === "取消关注"){
                     $.ajax({
-                        url: "attention/deleteOneAttention",
+                        url: "../attention/deleteOneAttention",
                         type: "post",
                         data: {
-                            userid : userid,
-                            nowimageusername: nowimageusername
+                            userid : localStorage.getItem("userid"),
+                            nowimageusername: localStorage.getItem("nowimageusername")
                         },
                         dataType: "json",
                         async: false,
                         success: function (data) {
                             $("#attention").val("关注");
+                            $("#attention").html("关注");
                             alert("已取消关注！");
                         },
                         error: function (error) {
@@ -226,16 +233,19 @@
             if(localStorage.getItem("status") !== null){
                 if($(this).val() === "拉黑"){
                     $.ajax({
-                        url: "blacklist/insertOneBlacklist",
+                        url: "../blacklist/insertOneBlacklist",
                         type: "post",
                         data: {
-                            userid : userid,
-                            nowimageusername: nowimageusername
+                            userid : localStorage.getItem("userid"),
+                            nowimageusername: localStorage.getItem("nowimageusername")
                         },
                         dataType: "json",
                         async: false,
                         success: function (data) {
                             $("#toblacklist").val("取消拉黑");
+                            $("#toblacklist").html("取消拉黑");
+                            $("#attention").val("关注");
+                            $("#attention").html("关注");
                             alert("已拉黑！");
                         },
                         error: function (error) {
@@ -244,16 +254,17 @@
                 }
                 else if($(this).val() === "取消拉黑"){
                     $.ajax({
-                        url: "blacklist/deleteOneBlacklist",
+                        url: "../blacklist/deleteOneBlacklist",
                         type: "post",
                         data: {
-                            userid : userid,
-                            nowimageusername: nowimageusername
+                            userid : localStorage.getItem("userid"),
+                            nowimageusername: localStorage.getItem("nowimageusername")
                         },
                         dataType: "json",
                         async: false,
                         success: function (data) {
                             $("#toblacklist").val("拉黑");
+                            $("#toblacklist").html("拉黑");
                             alert("已取消拉黑！");
                         },
                         error: function (error) {
@@ -263,15 +274,12 @@
             }
             else{}
         });
-        contentObj.find("div").prepend("<input type='button' class='delete ui-button' " +
-            "style='height: 20px;width: 40px;font-size: 18px' value='删除'>");
         if(localStorage.getItem("userid") === localStorage.getItem("nowimageuserid")){
-            contentObj.find("div").prepend("<input type='button' class='delete ui-button' " +
-                "style='height: 20px;width: 40px;font-size: 18px' value='删除'>");
+            contentObj.find("div").prepend("<input type='button' class='delete ui-button' value='删除'>");
             $(document).on('click', '.delete', function(){
                 var pthis = $(this).parents();
                 $.ajax({
-                    url: "/images/deleteOneImage",
+                    url: "../images/deleteOneImage",
                     type: "post",
                     data: {
                         imageid: localStorage.getItem("nowimageid")
@@ -280,7 +288,7 @@
                     async: false,
                     success: function(data) {
                         pthis.remove();
-                        alert("删除该成功！");
+                        alert("删除该图片成功！");
                     },
                     error: function(error){}
                 });
