@@ -9,31 +9,49 @@
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.theme.min.css">
     <script src="./jQueryUI-1.13.2/jquery-ui.min.js"></script>
+    <style>
+        textarea{
+            width: 80%;
+            position: relative;
+            border: 5px solid #007fff;
+            padding: 10px 20px 10px 20px;
+            margin: 10px 20px 10px 20px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 36px;
+            font-family: '隶书';
+        }
+    </style>
 </head>
 <body>
 <div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
     <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
-        <input type="text" id="name" readonly value="未登录">
-        <input type="button" class="ui-button" id="chooseTologgout" value="安全退出">
+        <input type="text" style="width: 18%;height: 100%;float:left;font-size: 36px;text-align: center;" id="name" readonly value="未登录">
+        <input type="button" class="ui-button" style="height:100%;float: right;font-size: 36px;text-align: center;" id="chooseTologgout" value="安全退出">
     </div>
-    <div id="content" style="height: 95%;width: 100%;top: 10%;position: relative;overflow-y: scroll" class="initial">
-        <div style="position: relative;text-align: center;vertical-align: center;height: 100%;width: 100%">
+    <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: relative;overflow-y: scroll" class="initial">
+        <div style="position: relative;border:5px solid #2b2b2b;border-left: 0;border-right: 0; border-bottom: 0;font-size: 48px;
+        text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
             <div id="list" style="width: 100%;height: 5%;position: fixed;">
-                <input type="button" class="ui-button" value="答题" id="answer">
-                <input type="button" class="ui-button" value="上传" id="upload">
-                <input type="button" class="ui-button" value="全部" id="classify_-1">
-                <input type="button" class="ui-button" value="通知" id="notice">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="答题" id="answer">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="上传" id="upload">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="全部" id="classify_-1">
+                <input type="button" class="ui-button" style="height: 100%;width: 13%;text-align: center
+                    ;float: left" value="通知" id="notice">
             </div>
             <br>
-            <div id="imageslist" style="position: relative;width: 100%;height: auto;text-align: center;">
+            <div id="imageslist" style="width: 100%;height: auto;text-align: center">
 
             </div>
         </div>
     </div>
-    <div id="footer" class="initial">
+    <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
         <div id="uponeimage" style="position: fixed;width: 80%;height: 80%;top: 5%;left: 10%;border: 1px solid #000;z-index: 999;background-color: #FFF;display: none">
-            <label style="float: left" for="uploadclassify">图片所属分类:</label>
-            <select id="uploadclassify">
+            <label style="font-size: 36px;float: left" for="uploadclassify">图片所属分类:</label>
+            <select style="font-size: 36px" id="uploadclassify">
                 <option value=""></option>
             </select>
             <input type="file" id="uploadimage" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg">
@@ -99,7 +117,10 @@
                 dataType: "json",
                 async: false,
                 success: function(data){
+                    localStorage.removeItem("loginUser");
+                    localStorage.removeItem("userid");
                     alert("退出登录成功！");
+                    location.href="index.html";
                 },
                 error: function (error) {}
             });
@@ -253,13 +274,15 @@
                 classifyList = data;
                 var selectedObj = $("#list");
                 for(var i = 0; i < data.length; i++){
-                    selectedObj.append("<input  type='button' class='ui-button' value='" + data[i].classifyname + "' id='classify_" +
+                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 13%;" +
+                        "text-align: center;float: left' value='" + data[i].classifyname + "' id='classify_" +
                         data[i].classifyid + "'>");
                     $("#uploadclassify").append("<option value='" + data[i].classifyid + "'>" +
                         data[i].classifyname + "</option>");
                 }
                 if(localStorage.getItem("status")!==null && localStorage.getItem("status") === '0'){//登录账户为管理员
-                    selectedObj.append("<input  type='button' class='ui-button' value='图片审核' id='shenhe'>");
+                    selectedObj.append("<input  type='button' class='ui-button' style='height: 100%;width: 26%;" +
+                        "text-align: center;float: left' value='图片审核' id='shenhe'>");
                 }
             },
             error: function(error){}
@@ -290,7 +313,7 @@
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                             "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
                             "<textarea class='comment' style='width: 80%;height:100px;background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                            "<button type='button' class='submitcomment'>发表</button><br>" +
+                            "<button type='button' style='right: 5%;font-size: 26px;height: auto;width: auto' class='submitcomment'>发表</button><br>" +
                             "</div>");
                     }
                 },
@@ -334,7 +357,7 @@
                                 "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                                 "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
                                 "<textarea class='comment' style='width: 80%;height:100px; background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                                "<button type='button' class='submitcomment'>发表</button><br>" +
+                                "<button type='button' style='right: 5%;font-size: 26px;height: auto;width: auto' class='submitcomment'>发表</button><br>" +
                                 "</div>");
                         }
                     },
@@ -371,7 +394,7 @@
                             "<img class='ig' style='width: 70%;height: auto' src='images/" + data[i].image + "' alt='图片'/><br>" +
                             "<div class='showcomment' style='width: 100%;height: auto;background-color: #CCC;border: 1px solid #000'>评论区</div><br>" +
                             "<textarea class='comment' style='width: 80%;height:100px;background-color: #FFF' placeholder='发表评论'></textarea><br>" +
-                            "<button type='button' class='submitcomment'>发表</button><br>" +
+                            "<button type='button' style='right: 5%;font-size: 26px;height: auto;width: auto' class='submitcomment'>发表</button><br>" +
                             "</div>");
                     }
                 },

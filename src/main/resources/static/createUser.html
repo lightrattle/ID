@@ -9,29 +9,48 @@
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.theme.min.css">
     <script src="./jQueryUI-1.13.2/jquery-ui.min.js"></script>
+    <style>
+        textarea{
+            width: 80%;
+            position: relative;
+            border: 5px solid #007fff;
+            padding: 10px 20px 10px 20px;
+            margin: 10px 20px 10px 20px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 36px;
+            font-family: '隶书';
+        }
+    </style>
 </head>
 <body>
 <div id="root" style="height: 100%;width: 100%;top: 0;left: 0;position: fixed" class="initial">
     <div id="header" style="height: 6%;width: 99.6%;top: 0.2%;right: 0.2%;position: fixed" class="initial">
     </div>
     <div id="content" style="height: 89.2%;width: 99.6%;right: 0.2%;top: 6.8%;position: fixed" class="initial">
-        <div style="position: relative;border:5px solid #2b2b2b;font-size: 48px;
+        <div style="position: relative;border:5px solid #2b2b2b;border-left: 0;border-right: 0; border-bottom: 0;font-size: 48px;
         text-align: center;vertical-align: center;height: 99.6%;width: 99.6%">
             <form action="/user/createUser" method="post">
-                <label for="nickname">昵&nbsp;&nbsp;称:</label>
-                <input type="text" value="" id="nickname" name="nickname" required placeholder="用户昵称"><br>
-                <label for="username">用户名:</label>
-                <input type="text" value="" id="username" name="username" required placeholder="用户名"><br>
+                <label style="font-size: 48px" for="nickname">昵&nbsp;&nbsp;称:</label>
+                <input type="text" style="font-size: 48px" value="" id="nickname" name="nickname"
+                       required placeholder="用户昵称"><br>
+                <label style="font-size: 48px" for="username">用户名:</label>
+                <input type="text" style="font-size: 48px" value="" id="username" name="username"
+                       required placeholder="用户名"><br>
                 <label for="password">密&nbsp;&nbsp;码:</label>
-                <input type="password" value="" id="password" name="password" required placeholder="密码"><br>
+                <input type="password" style="font-size: 48px" value="" id="password" name="password"
+                       required placeholder="密码"><br>
                 <label for="password_2">确&nbsp;&nbsp;认:</label>
-                <input type="password" value="" id="password_2" name="password_2" required placeholder="确认密码">
+                <input type="password" style="font-size: 48px" value="" id="password_2" name="password_2"
+                       required placeholder="确认密码">
                 <div>
-                    <input type="submit" class="ui-button" id="chooseTocreate" value="注册">
-                    <input type="button" class="ui-button" id="back" value="返回">
+                    <input type="submit" class="ui-button" style="font-size: 48px" id="chooseTocreate" value="注册">
+                    <input type="button" class="ui-button" style="font-size: 48px" id="back" value="返回">
                 </div>
             </form>
         </div>
+    </div>
+    <div id="footer" style="height: 3.2%;width: 99.6%;bottom: 0.2%;right: 0.2%;position: fixed" class="initial">
     </div>
 </div>
 </body>

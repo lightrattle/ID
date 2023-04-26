@@ -9,11 +9,24 @@
     <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "../jQueryUI-1.13.2/jquery-ui.theme.min.css">
     <script src="../jQueryUI-1.13.2/jquery-ui.min.js"></script>
+    <style>
+        textarea{
+            width: 80%;
+            position: relative;
+            border: 5px solid #007fff;
+            padding: 10px 20px 10px 20px;
+            margin: 10px 20px 10px 20px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 36px;
+            font-family: '隶书';
+        }
+    </style>
 </head>
 <body>
-<button id="back">返回</button><br>
-<button id="attention">关注/取消关注</button>
-<button id="toblacklist">拉黑/取消拉黑</button><br>
+<button id="back" style="float: left;width: auto;height: 35px;font-size: 26px">返回</button><br>
+<button id="attention" style="float: left;width: 90px;height: 35px;font-size: 26px">关注/取消关注</button>
+<button id="toblacklist" style="float: left;width: 90px;height: 35px;font-size: 26px">拉黑/取消拉黑</button><br>
 <div id="content" style="width: 100%;height: auto">
 
 </div>
@@ -275,7 +288,8 @@
             else{}
         });
         if(localStorage.getItem("userid") === localStorage.getItem("nowimageuserid")){
-            contentObj.find("div").prepend("<input type='button' class='delete ui-button' value='删除'>");
+            contentObj.find("div").prepend("<input type='button' class='delete ui-button'" +
+                "style='height: 20px;width: 40px;font-size: 18px' value='删除'>");
             $(document).on('click', '.delete', function(){
                 var pthis = $(this).parents();
                 $.ajax({
