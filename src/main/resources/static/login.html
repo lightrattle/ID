@@ -9,6 +9,7 @@
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.structure.min.css">
     <link rel = "stylesheet" href = "./jQueryUI-1.13.2/jquery-ui.theme.min.css">
     <script src="./jQueryUI-1.13.2/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="./css/background.css">
     <style>
         textarea{
             width: 80%;
@@ -19,7 +20,7 @@
             text-align: left;
             vertical-align: top;
             font-size: 36px;
-            font-family: '隶书';
+            font-family: '隶书',serif;
         }
     </style>
 </head>
@@ -35,10 +36,10 @@
                     <span>账号登录</span>
                 </div>
                 <div class="info">
-                    <label style="font-size: 48px" for="username">用户名:</label>
+                    <label style="font-size: 48px;display: inline-block;width: 180px;" for="username">用户名:</label>
                     <input type="text" style="font-size: 48px" value="" id="username" name="username"
                            required placeholder="用户名"><br>
-                    <label style="font-size: 48px" for="password">密&nbsp;&nbsp;码:</label>
+                    <label style="font-size: 48px;display: inline-block;width: 180px;" for="password">密&nbsp;&nbsp;码:</label>
                     <input type="password" style="font-size: 48px" value="" id="password" name="password"
                            required placeholder="密码">
                 </div>
@@ -47,7 +48,7 @@
                     <input type="submit" class="ui-button" style="font-size: 48px" id="chooseTologin" value="登录">
                 </div>
                 <div class="tail">
-                    <input type="button" class="ui-button" id="createUser" value="注册">
+                    <input type="button" class="ui-button" style="font-size: 48px" id="createUser" value="注册">
                 </div>
             </form>
         </div>
