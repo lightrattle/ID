@@ -48,6 +48,9 @@ CREATE TABLE `Classify` (
     `classifyname` varchar(125) NOT NULL,
     PRIMARY KEY (`classifyid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = COMPACT;
+INSERT INTO `Classify`(classifyid, classifyname) VALUES (1, '风景');
+INSERT INTO `Classify`(classifyid, classifyname) VALUES (3, '动漫');
+INSERT INTO `Classify`(classifyid, classifyname) VALUES (4, '动物');
 
 DROP TABLE IF EXISTS  `Images`;
 CREATE TABLE `Images` (

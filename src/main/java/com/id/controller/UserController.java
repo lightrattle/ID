@@ -68,11 +68,11 @@ public class UserController {
     }
 
     @RequestMapping("/logout")
-    public String logout(HttpSession session) {
+    public Map<String, Object> logout(HttpSession session) {
+        Map<String, Object> res = new HashMap<>();
         session.invalidate();
-        return "<script>" +
-                "location.href='/login.html';" +
-                "</script>";
+        res.put("result", "true");
+        return res;
     }
 
     @RequestMapping("/usernametouserid")
