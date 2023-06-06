@@ -81,18 +81,17 @@
                 async: false,
                 success: function (data) {
                     result = data;
+                    localStorage.setItem("loginUser", result['loginUser']);
+                    localStorage.setItem("userid", result['userid']);
+                    localStorage.setItem("status", result['status']);
+                    alert(result['msg']);
+                    location.href ='/home.html';
                 },
                 error: function (errorMsg) {
                     alert("error!" + errorMsg);
                     console.log(errorMsg);
                 }
             });
-            localStorage.setItem("loginUser", result['loginUser']);
-            localStorage.setItem("userid", result['userid']);
-            localStorage.setItem("status", result['status']);
-            alert(result['msg']);
-            location.href ='/home.html';
-            location.reload();
         });
     });
     function avoidJump(){

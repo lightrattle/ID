@@ -118,15 +118,12 @@
                 dataType: "json",
                 async: false,
                 success: function(data){
-                    localStorage.removeItem("loginUser");
-                    localStorage.removeItem("userid");
+                    localStorage.clear();
                     alert("退出登录成功！");
                     location.href="./index.html";
-                    location.reload();
                 },
                 error: function (error) {}
             });
-            location.reload();
         });
 
         $("#name").val(localStorage.getItem("loginUser"));
